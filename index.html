@@ -32,7 +32,7 @@
             min-height: 100vh;
         }
 
-        /* Nawigacja Główna */
+        /* Nawigacja Główna - Przyciski przewijają się razem ze stroną */
         nav {
             width: 100%;
             background-color: #1a1a1a;
@@ -41,9 +41,7 @@
             justify-content: center;
             gap: 12px;
             padding: 16px 10px;
-            position: sticky;
-            top: 0;
-            z-index: 100;
+            /* Zwykły element w strumieniu dokumentu - przesuwa się przy skrolowaniu */
         }
         .nav-btn {
             background-color: #2a2a2a;
@@ -79,12 +77,58 @@
             display: block;
         }
 
-        /* TABELA STYL */
+        /* STEROWANIE ZOOMEM TABELI */
+        .zoom-controls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            background-color: #1a1a1a;
+            padding: 10px 15px;
+            border-radius: 10px;
+            border: 1px solid #333;
+        }
+        .zoom-controls span {
+            font-size: 14px;
+            color: #aaa;
+            font-weight: bold;
+            margin-right: 5px;
+        }
+        .zoom-btn {
+            background-color: #2a2a2a;
+            color: white;
+            border: 1px solid #555;
+            padding: 8px 16px;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            touch-action: manipulation;
+        }
+        .zoom-btn:active {
+            background-color: #4CAF50;
+        }
+        #zoom-level-text {
+            font-size: 15px;
+            color: #4CAF50;
+            min-width: 50px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        /* TABELA STYL I ZOOOM CONTAINER */
         .table-responsive {
             width: 100%;
             overflow-x: auto;
             -webkit-overflow-scrolling: touch;
             border-radius: 12px;
+            touch-action: pan-x pan-y; /* Umożliwia obsługę gestu pinch-to-zoom */
+        }
+        #table-zoom-wrapper {
+            transform-origin: top left;
+            transition: transform 0.1s ease-out;
+            width: 100%;
         }
         table {
             width: 100%;
@@ -93,7 +137,7 @@
             border-radius: 12px;
             overflow: hidden;
             font-size: 18px;
-            min-width: 600px; /* Zapewnia brak ściskania kolumn na bardzo małych ekranach */
+            min-width: 600px; /* Zapewnia właściwy układ przed skalowaniem */
         }
         th, td {
             padding: 18px 20px;
@@ -295,7 +339,7 @@
                 font-size: 34px;
             }
             .inputs-grid {
-                grid-template-columns: 1fr; /* Zmiana układu na 1 kolumnę na telefonach */
+                grid-template-columns: 1fr;
                 gap: 15px;
             }
             input[type="text"] {
@@ -323,7 +367,7 @@
 </head>
 <body>
 
-    <!-- Menu Nawigacyjne -->
+    <!-- Menu Nawigacyjne (przewija się ze stroną) -->
     <nav>
         <button id="btn-table-tab" class="nav-btn" onclick="switchTab('table-tab')">Tabela Słówek</button>
         <button id="btn-input-quiz-tab" class="nav-btn" onclick="switchTab('input-quiz-tab')">Quiz: Wpisywanie</button>
@@ -332,20 +376,31 @@
 
     <!-- ZAKŁADKA 1: TABELA -->
     <div id="table-tab" class="tab-content">
-        <div class="table-responsive">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Infinitive</th>
-                        <th>Past Simple</th>
-                        <th>Past Participle</th>
-                        <th>Tłumaczenie</th>
-                    </tr>
-                </thead>
-                <tbody id="table-body">
-                    <!-- Tabela generowana dynamicznie w JS -->
-                </tbody>
-            </table>
+        <!-- Panel sterowania skalą tabeli -->
+        <div class="zoom-controls">
+            <span>Rozmiar tabeli:</span>
+            <button class="zoom-btn" onclick="adjustZoom(-0.1)">-</button>
+            <span id="zoom-level-text">100%</span>
+            <button class="zoom-btn" onclick="adjustZoom(0.1)">+</button>
+            <button class="zoom-btn" onclick="resetZoom()" style="font-size:14px; margin-left:10px;">Reset</button>
+        </div>
+
+        <div class="table-responsive" id="table-container">
+            <div id="table-zoom-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Infinitive</th>
+                            <th>Past Simple</th>
+                            <th>Past Participle</th>
+                            <th>Tłumaczenie</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body">
+                        <!-- Tabela generowana dynamicznie w JS -->
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 
@@ -511,6 +566,69 @@
                     <td>${w.translation}</td>
                 </tr>
             `).join('');
+        }
+
+        // OBSŁUGA SKALOWANIA / ZOOMU TABELI (Z ZAPISYWANIEM W LOCALSTORAGE)
+        let currentZoom = parseFloat(localStorage.getItem('tableZoom')) || 1.0;
+
+        function updateZoomDisplay() {
+            const wrapper = document.getElementById('table-zoom-wrapper');
+            const zoomText = document.getElementById('zoom-level-text');
+            
+            if (wrapper && zoomText) {
+                wrapper.style.transform = `scale(${currentZoom})`;
+                // Dostosowujemy szerokość, by margines nie uciekał
+                wrapper.style.width = `${100 / currentZoom}%`;
+                zoomText.innerText = `${Math.round(currentZoom * 100)}%`;
+                localStorage.setItem('tableZoom', currentZoom);
+            }
+        }
+
+        function adjustZoom(delta) {
+            currentZoom = Math.min(Math.max(0.4, currentZoom + delta), 1.5);
+            updateZoomDisplay();
+        }
+
+        function resetZoom() {
+            currentZoom = 1.0;
+            updateZoomDisplay();
+        }
+
+        // GEŚT PINCH-TO-ZOOM DLA TELEFONÓW NA TABELI
+        let initialDistance = -1;
+
+        function initPinchZoom() {
+            const container = document.getElementById('table-container');
+
+            container.addEventListener('touchstart', (e) => {
+                if (e.touches.length === 2) {
+                    initialDistance = Math.hypot(
+                        e.touches[0].pageX - e.touches[1].pageX,
+                        e.touches[0].pageY - e.touches[1].pageY
+                    );
+                }
+            }, { passive: true });
+
+            container.addEventListener('touchmove', (e) => {
+                if (e.touches.length === 2 && initialDistance > 0) {
+                    const currentDist = Math.hypot(
+                        e.touches[0].pageX - e.touches[1].pageX,
+                        e.touches[0].pageY - e.touches[1].pageY
+                    );
+                    const diff = (currentDist - initialDistance) / 200;
+                    
+                    if (Math.abs(diff) > 0.02) {
+                        adjustZoom(diff);
+                        initialDistance = currentDist;
+                    }
+                }
+            }, { passive: true });
+
+            container.addEventListener('touchend', (e) => {
+                if (e.touches.length < 2) {
+                    initialDistance = -1;
+                }
+            });
         }
 
         // LOGIKA QUIZU - WPISYWANIE
@@ -707,9 +825,12 @@
             document.getElementById("abcd-next-btn").focus();
         }
 
-        // INICJALIZACJA STARTOWA Z ODCZYTEM ZAKŁADKI
+        // INICJALIZACJA STARTOWA Z ODCZYTEM ZAKŁADKI I ZOOMU
         window.onload = function() {
             buildTable();
+            updateZoomDisplay();
+            initPinchZoom();
+
             initInputQueue();
             loadNextInputQuestion();
             initAbcdQueue();
