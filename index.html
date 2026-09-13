@@ -15,7 +15,7 @@
         .nav-btn { background-color: #2a2a2a; color: #ccc; border: 2px solid #444; padding: 14px 24px; font-family: inherit; font-size: 18px; font-weight: 700; border-radius: 10px; cursor: pointer; transition: all 0.2s; text-align: center; }
         .nav-btn:hover { background-color: #3d3d3d; color: #fff; }
         .nav-btn.active { background-color: #4CAF50; color: #fff; border-color: #4CAF50; }
-        .tab-content { display: none; width: 100%; max-width: 1250px; padding: 30px 20px; }
+        .tab-content { display: none; width: 100%; max-width: 1350px; padding: 30px 20px 80px 20px; }
         .tab-content.active { display: block; }
         
         .table-header-bar { 
@@ -25,27 +25,33 @@
             display: flex; 
             justify-content: space-between; 
             align-items: center; 
-            gap: 15px; 
+            gap: 20px; 
             margin-bottom: 25px; 
             background-color: #1a1a1a; 
-            padding: 14px 20px; 
-            border-radius: 12px; 
+            padding: 24px 32px; 
+            border-radius: 16px; 
             border: 1px solid #333; 
             flex-wrap: wrap; 
             box-shadow: 0 10px 25px rgba(0,0,0,0.8);
         }
         
-        .zoom-controls { display: flex; align-items: center; gap: 12px; }
-        .zoom-controls span { font-size: 20px; color: #aaa; font-weight: 700; }
-        .zoom-btn { background-color: #262626; color: white; border: 2px solid #444; padding: 12px 20px; font-size: 20px; font-weight: 700; border-radius: 10px; cursor: pointer; touch-action: manipulation; line-height: 1; display: inline-flex; align-items: center; justify-content: center; transition: background-color 0.2s, border-color 0.2s; }
-        .zoom-btn:hover { border-color: #4CAF50; background-color: #333333; }
-        .zoom-btn:active { background-color: #4CAF50; }
-        #zoom-level-text { font-size: 20px; color: #4CAF50; min-width: 65px; text-align: center; font-weight: 700; }
+        .zoom-controls { display: flex; align-items: center; gap: 14px; }
+        .zoom-controls span { font-size: 22px; color: #aaa; font-weight: 700; }
         
-        /* Kontener pola wyszukiwania */
-        .search-box { position: relative; display: flex; align-items: center; flex-grow: 1; max-width: 400px; }
+        .zoom-btn { 
+            background-color: #262626; color: white; border: 2px solid #444; 
+            width: 56px; height: 56px; font-size: 26px; font-weight: 700; 
+            border-radius: 12px; cursor: pointer; touch-action: manipulation; 
+            display: inline-flex; align-items: center; justify-content: center; 
+            transition: background-color 0.2s, border-color 0.2s, color 0.2s; padding: 0; box-sizing: border-box;
+            text-decoration: none;
+        }
+        .zoom-btn:hover { border-color: #ffd700; background-color: #333333; color: #ffd700; }
+        .zoom-btn:active { background-color: #ffd700; color: #000; }
+        #zoom-level-text { font-size: 22px; color: #ffd700; min-width: 75px; text-align: center; font-weight: 700; }
         
-        /* Usuwanie domyślnego iksa z przeglądarek */
+        .search-box { position: relative; display: flex; align-items: center; flex-grow: 1; max-width: 500px; height: 56px; }
+        
         input[type="search"]::-webkit-search-decoration,
         input[type="search"]::-webkit-search-cancel-button,
         input[type="search"]::-webkit-search-results-button,
@@ -54,27 +60,31 @@
             display: none;
         }
 
-        .search-input { width: 100%; padding: 12px 52px 12px 16px; font-family: inherit; font-size: 18px; border: 2px solid #444; border-radius: 10px; background-color: #262626; color: white; outline: none; }
-        .search-input:focus { border-color: #4CAF50; }
+        .search-input { width: 100%; height: 56px; padding: 0 58px 0 20px; font-family: inherit; font-size: 20px; border: 2px solid #444; border-radius: 12px; background-color: #262626; color: white; outline: none; box-sizing: border-box; }
+        .search-input:focus { border-color: #ffd700; }
         
-        /* Przycisk czyszczenia wyszukiwarki (X) - powiększony i przesunięty w lewo */
         .clear-search-btn {
             position: absolute;
-            right: 24px; /* Przesunięty bardziej w lewo */
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
             background: none;
             border: none;
-            color: #4CAF50; /* Zielony jak ramka */
-            font-size: 24px; /* Powiększony */
-            font-weight: bold;
+            color: #ffd700;
             cursor: pointer;
             display: none;
+            align-items: center;
+            justify-content: center;
             padding: 4px;
+            font-size: 30px;
+            font-weight: 900;
+            -webkit-text-stroke: 1.2px #ffd700;
             line-height: 1;
-            transition: color 0.2s, transform 0.1s;
+            transition: transform 0.1s;
         }
         .clear-search-btn:hover {
-            color: #f44336; /* Czerwony przy najechaniu */
-            transform: scale(1.15);
+            color: #ffd700;
+            transform: translateY(-50%) scale(1.1);
         }
         
         .table-responsive { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: 12px; touch-action: pan-x pan-y; }
@@ -82,40 +92,162 @@
         
         table { width: 100%; border-collapse: collapse; background-color: #1a1a1a; border-radius: 12px; overflow: hidden; font-size: 18px; min-width: 600px; table-layout: fixed; }
         th, td { padding: 18px 20px; text-align: left; border-bottom: 1px solid #2a2a2a; transition: background-color 0.3s, color 0.3s; width: 25%; word-wrap: break-word; }
-        th { background-color: #0d0d0d; font-weight: 700; font-size: 20px; border-bottom: 2px solid #444; color: #4CAF50; }
+        th { background-color: #0d0d0d; font-weight: 700; font-size: 20px; border-bottom: 2px solid #444; color: #ffd700; }
         tr:nth-child(even) { background-color: #242424; }
-        .phonetic { color: #aaaaaa; font-size: 0.9em; }
         tr.highlighted-row { background-color: #ffd700 !important; color: #000 !important; font-weight: bold; }
         tr.highlighted-row td { color: #000 !important; }
-        tr.highlighted-row .phonetic { color: #333 !important; }
         
-        .quiz-container { background-color: #2d2d2d; padding: 40px 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.7); text-align: center; max-width: 1200px; margin: 10px auto; }
+        .quiz-container { background-color: #2d2d2d; padding: 40px 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.7); text-align: center; max-width: 1200px; margin: 10px auto; position: relative; }
+        
+        .quiz-reset-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 52px;
+            height: 52px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #262626;
+            border: 2px solid #555;
+            border-radius: 12px;
+            color: #fff;
+            cursor: pointer;
+            text-decoration: none;
+            box-sizing: border-box;
+            transition: all 0.2s;
+        }
+        .quiz-reset-btn:hover { background-color: #333333; border-color: #ffd700; color: #ffd700; }
+
         h1 { color: #4CAF50; margin-top: 0; font-size: 38px; font-weight: 700; margin-bottom: 15px; }
         .translation-box { background-color: #3d3d3d; padding: 25px; border-radius: 16px; margin-bottom: 30px; }
         .translation-label { font-size: 16px; color: #aaa; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1.5px; }
-        .translation-value { font-size: 46px; font-weight: 700; color: #ff9800; word-break: break-word; }
+        .translation-value { font-size: 46px; font-weight: 700; color: #ffd700; word-break: break-word; }
         .inputs-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; margin-bottom: 30px; text-align: left; }
         .input-group { background-color: #3d3d3d; padding: 20px; border-radius: 14px; }
         .input-label { font-size: 15px; color: #aaa; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; }
         
         input[type="text"], input[type="search"] { width: 100%; padding: 16px 12px; font-family: inherit; font-weight: 700; font-size: 22px; border: 3px solid #555; border-radius: 10px; background-color: #262626; color: white; text-align: center; box-sizing: border-box; }
-        input[type="text"]:focus, input[type="search"]:focus { border-color: #4CAF50; outline: none; }
+        input[type="text"]:focus { border-color: #4CAF50; outline: none; }
+        input[type="search"]:focus { border-color: #ffd700; outline: none; }
         input:disabled { background-color: #262626; color: #888; border-color: #555; opacity: 1; }
         
         .options-grid { display: flex; flex-direction: column; gap: 16px; margin-bottom: 30px; }
         .option-btn { background-color: #3d3d3d; color: white; border: 3px solid #555; padding: 20px 24px; font-family: inherit; font-weight: 700; font-size: 22px; border-radius: 14px; cursor: pointer; transition: all 0.2s; text-align: left; width: 100%; }
-        .option-btn:hover:not(:disabled) { background-color: #4d4d4d; border-color: #4CAF50; }
-        .option-btn.correct-ans { background-color: #2e7d32 !important; border-color: #4CAF50 !important; }
+        .option-btn:hover:not(:disabled) { background-color: #4d4d4d; border-color: #ffd700; color: #ffd700; }
+        .option-btn.correct-ans { background-color: #2e7d32 !important; border-color: #4CAF50 !important; color: #fff !important; }
         .option-btn.wrong-ans { background-color: #c62828 !important; border-color: #f44336 !important; }
         
         .btn-action { background-color: #4CAF50; color: white; border: none; padding: 18px 40px; font-family: inherit; font-weight: 700; font-size: 22px; border-radius: 12px; cursor: pointer; transition: background-color 0.3s; margin: 5px; width: 100%; max-width: 320px; }
         .btn-action:hover { background-color: #45a049; }
         .btn-next { background-color: #2196F3 !important; display: none; }
         .btn-next:hover { background-color: #1976D2 !important; }
+        .btn-skip { background-color: #757575 !important; }
+        .btn-skip:hover { background-color: #616161 !important; }
+        .btn-end { background-color: #e53935 !important; border: none; }
+        .btn-end:hover { background-color: #c62828 !important; }
+
+        .btn-retry-wrong { background-color: #ff9800 !important; }
+        .btn-retry-wrong:hover { background-color: #e68a00 !important; }
+
         .feedback { margin-top: 25px; font-size: 22px; font-weight: 700; min-height: 40px; line-height: 1.4; }
         .correct { color: #4CAF50; }
         .incorrect { color: #f44336; }
+        .skipped-text { color: #aaa; }
         .counter { font-size: 18px; color: #aaa; margin-bottom: 15px; }
+
+        .summary-container { text-align: left; margin-top: 20px; }
+        .summary-title { font-size: 28px; color: #4CAF50; font-weight: 700; text-align: center; margin-bottom: 20px; }
+        .summary-score { font-size: 22px; text-align: center; margin-bottom: 30px; color: #fff; }
+        
+        .summary-list { 
+            background-color: #1e1e1e; 
+            border-radius: 12px; 
+            padding: 15px; 
+            border: 2px solid #444; 
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .summary-item {
+            background-color: #2a2a2a;
+            border-radius: 10px;
+            padding: 14px 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-left: 6px solid #555;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .summary-item.perfect { border-left-color: #4CAF50; }
+        .summary-item.partial { border-left-color: #ffd700; }
+        .summary-item.failed { border-left-color: #f44336; }
+        .summary-item.skipped { border-left-color: #888888; background-color: #222222; }
+
+        .summary-item-content { flex-grow: 1; font-size: 18px; line-height: 1.5; }
+        .summary-num { font-weight: bold; color: #888; margin-right: 8px; }
+        .summary-word { font-weight: bold; font-size: 20px; }
+        
+        .summary-translation-badge {
+            background-color: #ffd700;
+            color: #000;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 6px;
+            margin-left: 6px;
+            display: inline-block;
+        }
+
+        .summary-score-badge {
+            font-size: 20px;
+            font-weight: 700;
+            padding: 8px 16px;
+            border-radius: 8px;
+            background-color: #1a1a1a;
+            color: #fff;
+            border: 1px solid #444;
+            white-space: nowrap;
+        }
+
+        .summary-details {
+            font-size: 15px;
+            margin-top: 6px;
+            color: #ccc;
+        }
+        .text-correct { color: #4CAF50; font-weight: bold; }
+        .text-wrong { color: #f44336; font-weight: bold; text-decoration: line-through; }
+        .text-skipped { color: #888; font-style: normal; }
+
+        .summary-footer-bar {
+            position: sticky;
+            bottom: 20px;
+            z-index: 1000;
+            margin-top: 25px;
+            background-color: #2d2d2d;
+            padding: 16px 20px;
+            border-radius: 20px;
+            border: 0 solid #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.8);
+            flex-wrap: wrap;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .action-buttons-wrapper {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            width: 100%;
+        }
 
         @media (max-width: 768px) {
             nav { flex-direction: column; padding: 10px; gap: 8px; }
@@ -125,8 +257,8 @@
                 flex-direction: column; 
                 align-items: stretch; 
                 top: 10px; 
-                padding: 10px 12px; 
-                gap: 10px;
+                padding: 18px 16px; 
+                gap: 12px;
                 border-radius: 12px;
             }
             .zoom-controls { 
@@ -135,16 +267,17 @@
                 align-items: center;
                 width: 100%; 
             }
-            .zoom-controls span { font-size: 15px; }
-            .zoom-btn { padding: 6px 10px; font-size: 15px; }
-            #zoom-level-text { font-size: 16px; min-width: 45px; }
+            .zoom-controls span { font-size: 18px; }
+            .zoom-btn { width: 48px; height: 48px; font-size: 20px; }
+            #zoom-level-text { font-size: 18px; min-width: 55px; }
             
-            .search-box { width: 100%; max-width: 100%; }
-            .search-input { font-size: 16px; padding: 10px 48px 10px 10px; text-align: center; }
-            .clear-search-btn { right: 14px; font-size: 22px; }
+            .search-box { width: 100%; max-width: 100%; height: 48px; }
+            .search-input { height: 48px; font-size: 18px; padding: 0 48px 0 12px; text-align: left; }
+            .clear-search-btn { right: 12px; font-size: 30px; }
 
-            .tab-content { padding: 10px 5px; }
+            .tab-content { padding: 10px 5px 80px 5px; }
             .quiz-container { padding: 20px 12px; border-radius: 14px; }
+            .quiz-reset-btn { top: 12px; right: 12px; width: 44px; height: 44px; }
             h1 { font-size: 24px; }
             .translation-value { font-size: 30px; }
             .inputs-grid { grid-template-columns: 1fr; gap: 12px; }
@@ -152,6 +285,10 @@
             .option-btn { font-size: 16px; padding: 14px; }
             .btn-action { font-size: 18px; padding: 14px; max-width: 100%; }
             th, td { padding: 10px 8px; font-size: 15px; }
+            
+            .summary-item { flex-direction: column; align-items: flex-start; }
+            .summary-score-badge { align-self: flex-end; }
+            .summary-footer-bar { bottom: 10px; padding: 12px; border-radius: 14px; }
         }
     </style>
 </head>
@@ -170,11 +307,16 @@
                 <button class="zoom-btn" onclick="adjustZoom(-0.1)">-</button>
                 <span id="zoom-level-text">100%</span>
                 <button class="zoom-btn" onclick="adjustZoom(0.1)">+</button>
-                <button class="zoom-btn" onclick="resetZoom()" style="font-size:14px; padding: 8px 12px;">Reset</button>
+                <button class="zoom-btn" onclick="resetZoom()" title="Resetuj zoom">
+                    <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+                        <path d="M3 3v5h5"></path>
+                    </svg>
+                </button>
             </div>
             <form class="search-box" action="javascript:void(0);" onsubmit="searchTable(); return false;">
                 <input type="search" id="table-search-input" class="search-input" placeholder="Szukaj..." autocomplete="off" enterkeyhint="search" oninput="toggleClearButton()">
-                <button type="button" id="clear-search-btn" class="clear-search-btn" onclick="clearSearch()" title="Wyczyszczenie searcha">✖</button>
+                <button type="button" id="clear-search-btn" class="clear-search-btn" onclick="clearSearch()" title="Wyczyść wyszukiwanie">&#10005;</button>
             </form>
         </div>
 
@@ -196,7 +338,13 @@
     </div>
 
     <div id="input-quiz-tab" class="tab-content">
-        <div class="quiz-container">
+        <div class="quiz-container" id="in-quiz-box">
+            <a href="#" class="quiz-reset-btn" onclick="restartInputQuiz(); return false;" title="Resetuj quiz">
+                <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+                    <path d="M3 3v5h5"></path>
+                </svg>
+            </a>
             <h1>Quiz: Wpisz Formy Krok po Kroku</h1>
             <div class="counter" id="in-counter-text"></div>
             <div class="counter" id="in-progress-text" style="color: #4CAF50; margin-top: -8px; margin-bottom: 20px; font-weight: 700;"></div>
@@ -221,15 +369,25 @@
                 </div>
             </div>
 
-            <button class="btn-action" id="in-check-btn" onclick="handleInputStep()">Sprawdź</button>
-            <button class="btn-action btn-next" id="in-next-btn" onclick="loadNextInputQuestion()">Następne słówko</button>
+            <div class="action-buttons-wrapper">
+                <button class="btn-action" id="in-check-btn" onclick="handleInputStep()">Sprawdź</button>
+                <button class="btn-action btn-skip" id="in-skip-btn" onclick="skipInputQuestion()">Pomiń słówko</button>
+                <button class="btn-action btn-end" id="in-end-btn" onclick="showInputSummary()">Zakończ quiz</button>
+                <button class="btn-action btn-next" id="in-next-btn" onclick="loadNextInputQuestion()">Następne słówko</button>
+            </div>
 
             <div class="feedback" id="in-feedback"></div>
         </div>
     </div>
 
     <div id="abcd-quiz-tab" class="tab-content">
-        <div class="quiz-container">
+        <div class="quiz-container" id="abcd-quiz-box">
+            <a href="#" class="quiz-reset-btn" onclick="restartAbcdQuiz(); return false;" title="Resetuj quiz">
+                <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+                    <path d="M3 3v5h5"></path>
+                </svg>
+            </a>
             <h1>Quiz: Wybierz Poprawne Formy</h1>
             <div class="counter" id="abcd-counter-text"></div>
             <div class="counter" id="abcd-progress-text" style="color: #4CAF50; margin-top: -8px; margin-bottom: 20px; font-weight: 700;"></div>
@@ -241,7 +399,11 @@
 
             <div class="options-grid" id="abcd-options-container"></div>
 
-            <button class="btn-action btn-next" id="abcd-next-btn" onclick="loadNextAbcdQuestion()">Następne słówko</button>
+            <div class="action-buttons-wrapper">
+                <button class="btn-action btn-skip" id="abcd-skip-btn" onclick="skipAbcdQuestion()">Pomiń słówko</button>
+                <button class="btn-action btn-end" id="abcd-end-btn" onclick="showAbcdSummary()">Zakończ quiz</button>
+                <button class="btn-action btn-next" id="abcd-next-btn" onclick="loadNextAbcdQuestion()">Następne słówko</button>
+            </div>
 
             <div class="feedback" id="abcd-feedback"></div>
         </div>
@@ -352,7 +514,7 @@
             const input = document.getElementById("table-search-input");
             const clearBtn = document.getElementById("clear-search-btn");
             if (input.value.length > 0) {
-                clearBtn.style.display = "block";
+                clearBtn.style.display = "flex";
             } else {
                 clearBtn.style.display = "none";
             }
@@ -368,27 +530,19 @@
 
         function searchTable() {
             const query = document.getElementById("table-search-input").value.trim().toLowerCase();
-            
             document.querySelectorAll("#table-body tr").forEach(tr => tr.classList.remove("highlighted-row"));
-            
             if (!query) return;
 
             let matchingIndexes = [];
-            
             originalWords.forEach((w, idx) => {
                 const fields = [w.infinitive, w.pastSimple, w.pastParticiple, w.translation];
-                
                 const isMatch = fields.some(field => {
                     const cleanField = field.toLowerCase();
                     if (cleanField.includes(query)) return true;
-                    
                     const wordsInField = cleanField.replace(/[\(\)\/\,]/g, ' ').split(/\s+/);
                     return wordsInField.some(part => part.startsWith(query));
                 });
-
-                if (isMatch) {
-                    matchingIndexes.push(idx);
-                }
+                if (isMatch) matchingIndexes.push(idx);
             });
 
             if (matchingIndexes.length >= 1) {
@@ -399,7 +553,6 @@
                     row.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 }
             }
-            
             document.getElementById("table-search-input").blur();
         }
 
@@ -433,16 +586,39 @@
             container.addEventListener('touchend', e => { if (e.touches.length < 2) initialDistance = -1; });
         }
 
-        // QUIZ - WPISYWANIE
+        // --- QUIZ WPISYWANIE ---
+        let inTotalPool = [...originalWords];
         let inAvailableWords = [], inCurrentWord = {}, inScoreCorrect = 0, inScoreTotal = 0, inQuestionNumber = 0, inCurrentStep = 0;
+        let inSkippedCount = 0;
+        let inHistory = [];
+        let inCurrentItemHistory = null;
 
-        function initInputQueue() { inAvailableWords = [...originalWords].sort(() => Math.random() - 0.5); inQuestionNumber = 0; }
+        function initInputQueue(customPool = null) { 
+            inTotalPool = customPool ? [...customPool] : [...originalWords];
+            inAvailableWords = [...inTotalPool].sort(() => Math.random() - 0.5); 
+            inQuestionNumber = 0; 
+            inScoreCorrect = 0; 
+            inScoreTotal = 0;
+            inSkippedCount = 0;
+            inHistory = [];
+        }
 
         function loadNextInputQuestion() {
-            if (!inAvailableWords.length) initInputQueue();
+            if (!inAvailableWords.length) {
+                showInputSummary();
+                return;
+            }
             inQuestionNumber++;
             inCurrentWord = inAvailableWords.pop();
             inCurrentStep = 0;
+
+            inCurrentItemHistory = {
+                word: inCurrentWord,
+                userAnswers: ["", "", ""],
+                isCorrects: [false, false, false],
+                correctCount: 0,
+                skipped: false
+            };
 
             for (let i = 0; i < 3; i++) {
                 const inp = document.getElementById("input-" + i);
@@ -454,9 +630,11 @@
             document.getElementById("in-feedback").innerHTML = "";
             document.getElementById("in-next-btn").style.display = "none";
             document.getElementById("in-check-btn").style.display = "inline-block";
+            document.getElementById("in-skip-btn").style.display = "inline-block";
+            document.getElementById("in-end-btn").style.display = "inline-block";
             document.getElementById("in-val-translation").innerText = inCurrentWord.translation;
             document.getElementById("in-counter-text").innerText = `Statystyki: Poprawne ${inScoreCorrect} / Wszystkie ${inScoreTotal}`;
-            document.getElementById("in-progress-text").innerText = `Słówko: ${inQuestionNumber} / ${originalWords.length}`;
+            document.getElementById("in-progress-text").innerText = `Słówko: ${inQuestionNumber} / ${inTotalPool.length} | Pominięto: ${inSkippedCount} / ${inTotalPool.length}`;
             document.getElementById("input-0").focus();
         }
 
@@ -477,9 +655,13 @@
             const answers = [inCurrentWord.infinitive, inCurrentWord.pastSimple, inCurrentWord.pastParticiple];
             const isOk = checkField(userInput, answers[inCurrentStep]);
 
+            inCurrentItemHistory.userAnswers[inCurrentStep] = userInput;
+            inCurrentItemHistory.isCorrects[inCurrentStep] = isOk;
+
             inputField.disabled = true;
             if (isOk) {
                 inScoreCorrect++;
+                inCurrentItemHistory.correctCount++;
                 inputField.style.borderColor = "#4CAF50";
                 feedbackEl.innerHTML = "<span class='correct'>Dobrze! 🎉</span>";
             } else {
@@ -495,37 +677,234 @@
                 nextInput.disabled = false;
                 nextInput.focus();
             } else {
+                inHistory.push(inCurrentItemHistory);
                 document.getElementById("in-check-btn").style.display = "none";
+                document.getElementById("in-skip-btn").style.display = "none";
+                document.getElementById("in-end-btn").style.display = "none";
                 document.getElementById("in-next-btn").style.display = "inline-block";
             }
         }
 
+        function skipInputQuestion() {
+            inSkippedCount++;
+            inCurrentItemHistory.skipped = true;
+            inHistory.push(inCurrentItemHistory);
+
+            const answers = [inCurrentWord.infinitive, inCurrentWord.pastSimple, inCurrentWord.pastParticiple];
+            for (let i = 0; i < 3; i++) {
+                const inp = document.getElementById("input-" + i);
+                inp.value = answers[i];
+                inp.disabled = true;
+                inp.style.borderColor = "#888";
+            }
+
+            document.getElementById("in-feedback").innerHTML = `<span class='skipped-text'>Pominięto słówko. Poprawne formy zostały uzupełnione.</span>`;
+            document.getElementById("in-check-btn").style.display = "none";
+            document.getElementById("in-skip-btn").style.display = "none";
+            document.getElementById("in-end-btn").style.display = "none";
+            document.getElementById("in-next-btn").style.display = "inline-block";
+            document.getElementById("in-next-btn").focus();
+        }
+
+        function showInputSummary() {
+            const box = document.getElementById("in-quiz-box");
+            let retryWords = [];
+
+            let listHtml = inHistory.map((item, idx) => {
+                const w = item.word;
+                if (item.skipped || item.correctCount < 3) {
+                    retryWords.push(w);
+                }
+
+                if (item.skipped) {
+                    return `
+                        <div class="summary-item skipped">
+                            <div class="summary-item-content">
+                                <div>
+                                    <span class="summary-num">${idx + 1}.</span>
+                                    <span class="summary-word">${w.infinitive}</span>
+                                    <span class="summary-translation-badge">${w.translation}</span>
+                                    <strong style="color: #888; margin-left: 10px;">[Pominięto]</strong>
+                                </div>
+                                <div class="summary-details">
+                                    <span class="text-skipped">${w.infinitive}, ${w.pastSimple}, ${w.pastParticiple}</span>
+                                </div>
+                            </div>
+                            <div class="summary-score-badge">0/3</div>
+                        </div>
+                    `;
+                }
+
+                const statusClass = item.correctCount === 3 ? 'perfect' : (item.correctCount > 0 ? 'partial' : 'failed');
+                const forms = [
+                    { user: item.userAnswers[0], correct: w.infinitive, isOk: item.isCorrects[0] },
+                    { user: item.userAnswers[1], correct: w.pastSimple, isOk: item.isCorrects[1] },
+                    { user: item.userAnswers[2], correct: w.pastParticiple, isOk: item.isCorrects[2] }
+                ];
+
+                let detailsHtml = forms.map(f => {
+                    if (f.isOk) {
+                        return `<span class="text-correct">${f.user}</span>`;
+                    } else {
+                        return `<span class="text-wrong">${f.user || '(brak)'}</span> → <span class="text-correct">${f.correct}</span>`;
+                    }
+                }).join(', ');
+
+                return `
+                    <div class="summary-item ${statusClass}">
+                        <div class="summary-item-content">
+                            <div>
+                                <span class="summary-num">${idx + 1}.</span>
+                                <span class="summary-word">${w.infinitive}</span>
+                                <span class="summary-translation-badge">${w.translation}</span>
+                            </div>
+                            <div class="summary-details">${detailsHtml}</div>
+                        </div>
+                        <div class="summary-score-badge">${item.correctCount}/3</div>
+                    </div>
+                `;
+            }).join('');
+
+            const totalPossible = inHistory.length * 3;
+            const percent = totalPossible > 0 ? Math.round((inScoreCorrect/totalPossible)*100) : 0;
+
+            window.inWrongWordsCache = retryWords;
+
+            let retryBtnHtml = retryWords.length > 0 
+                ? `<button class="btn-action btn-retry-wrong" onclick="retryInputWrongWords()">Powtórz błędne i pominięte (${retryWords.length})</button>`
+                : '';
+
+            box.innerHTML = `
+                <a href="#" class="quiz-reset-btn" onclick="restartInputQuiz(); return false;" title="Resetuj quiz">
+                    <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+                        <path d="M3 3v5h5"></path>
+                    </svg>
+                </a>
+                <h1>Koniec Quizu! 🎉</h1>
+                <div class="summary-score">Twój wynik całkowity: <strong>${inScoreCorrect} / ${totalPossible}</strong> form (${percent}%)</div>
+                <div class="summary-container">
+                    <div class="summary-title">Podsumowanie odpowiedzi:</div>
+                    <div class="summary-list">${listHtml}</div>
+                </div>
+            `;
+
+            let oldFooter = document.getElementById("in-summary-footer");
+            if (oldFooter) oldFooter.remove();
+
+            const footerBar = document.createElement("div");
+            footerBar.id = "in-summary-footer";
+            footerBar.className = "summary-footer-bar";
+            footerBar.innerHTML = `
+                <button class="btn-action" onclick="restartInputQuiz()">Zagraj ponownie</button>
+                ${retryBtnHtml}
+            `;
+            document.getElementById("input-quiz-tab").appendChild(footerBar);
+        }
+
+        function retryInputWrongWords() {
+            if (!window.inWrongWordsCache || !window.inWrongWordsCache.length) return;
+            let oldFooter = document.getElementById("in-summary-footer");
+            if (oldFooter) oldFooter.remove();
+            
+            resetInputQuizUI();
+            initInputQueue(window.inWrongWordsCache);
+            loadNextInputQuestion();
+        }
+
+        function resetInputQuizUI() {
+            const tab = document.getElementById("input-quiz-tab");
+            tab.innerHTML = `
+                <div class="quiz-container" id="in-quiz-box">
+                    <a href="#" class="quiz-reset-btn" onclick="restartInputQuiz(); return false;" title="Resetuj quiz">
+                        <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+                            <path d="M3 3v5h5"></path>
+                        </svg>
+                    </a>
+                    <h1>Quiz: Wpisz Formy Krok po Kroku</h1>
+                    <div class="counter" id="in-counter-text"></div>
+                    <div class="counter" id="in-progress-text" style="color: #4CAF50; margin-top: -8px; margin-bottom: 20px; font-weight: 700;"></div>
+                    
+                    <div class="translation-box">
+                        <div class="translation-label">Tłumaczenie (Polski)</div>
+                        <div class="translation-value" id="in-val-translation">-</div>
+                    </div>
+
+                    <div class="inputs-grid">
+                        <div class="input-group">
+                            <div class="input-label">Infinitive</div>
+                            <input type="text" id="input-0" placeholder="Wpisz..." autocomplete="off" autocapitalize="none">
+                        </div>
+                        <div class="input-group">
+                            <div class="input-label">Past Simple</div>
+                            <input type="text" id="input-1" placeholder="Wpisz..." autocomplete="off" autocapitalize="none" disabled>
+                        </div>
+                        <div class="input-group">
+                            <div class="input-label">Past Participle</div>
+                            <input type="text" id="input-2" placeholder="Wpisz..." autocomplete="off" autocapitalize="none" disabled>
+                        </div>
+                    </div>
+
+                    <div class="action-buttons-wrapper">
+                        <button class="btn-action" id="in-check-btn" onclick="handleInputStep()">Sprawdź</button>
+                        <button class="btn-action btn-skip" id="in-skip-btn" onclick="skipInputQuestion()">Pomiń słówko</button>
+                        <button class="btn-action btn-end" id="in-end-btn" onclick="showInputSummary()">Zakończ quiz</button>
+                        <button class="btn-action btn-next" id="in-next-btn" onclick="loadNextInputQuestion()">Następne słówko</button>
+                    </div>
+
+                    <div class="feedback" id="in-feedback"></div>
+                </div>
+            `;
+        }
+
+        function restartInputQuiz() {
+            location.reload();
+        }
+
         document.addEventListener("keydown", e => {
             if (e.key === "Enter" && document.getElementById('input-quiz-tab').classList.contains('active')) {
-                if (inCurrentStep < 3) {
+                if (inCurrentStep < 3 && document.getElementById("in-check-btn").style.display !== "none") {
                     handleInputStep();
-                } else {
+                } else if (document.getElementById("in-next-btn").style.display !== "none") {
                     loadNextInputQuestion();
                 }
             }
         });
 
-        // QUIZ - ABCD
+        // --- QUIZ ABCD ---
+        let abcdTotalPool = [...originalWords];
         let abcdAvailableWords = [], abcdCurrentWord = {}, abcdScoreCorrect = 0, abcdScoreTotal = 0, abcdQuestionNumber = 0;
+        let abcdSkippedCount = 0;
+        let abcdHistory = [];
 
-        function initAbcdQueue() { abcdAvailableWords = [...originalWords].sort(() => Math.random() - 0.5); abcdQuestionNumber = 0; }
+        function initAbcdQueue(customPool = null) { 
+            abcdTotalPool = customPool ? [...customPool] : [...originalWords];
+            abcdAvailableWords = [...abcdTotalPool].sort(() => Math.random() - 0.5); 
+            abcdQuestionNumber = 0; 
+            abcdScoreCorrect = 0;
+            abcdScoreTotal = 0;
+            abcdSkippedCount = 0;
+            abcdHistory = [];
+        }
+
         const formatWordString = w => `${w.infinitive}, ${w.pastSimple}, ${w.pastParticiple}`;
 
         function loadNextAbcdQuestion() {
-            if (!abcdAvailableWords.length) initAbcdQueue();
+            if (!abcdAvailableWords.length) {
+                showAbcdSummary();
+                return;
+            }
             abcdQuestionNumber++;
             abcdCurrentWord = abcdAvailableWords.pop();
 
             document.getElementById("abcd-feedback").innerHTML = "";
             document.getElementById("abcd-next-btn").style.display = "none";
+            document.getElementById("abcd-skip-btn").style.display = "inline-block";
+            document.getElementById("abcd-end-btn").style.display = "inline-block";
             document.getElementById("abcd-val-translation").innerText = abcdCurrentWord.translation;
             document.getElementById("abcd-counter-text").innerText = `Statystyki: Poprawne ${abcdScoreCorrect} / Wszystkie ${abcdScoreTotal}`;
-            document.getElementById("abcd-progress-text").innerText = `Słówko: ${abcdQuestionNumber} / ${originalWords.length}`;
+            document.getElementById("abcd-progress-text").innerText = `Słówko: ${abcdQuestionNumber} / ${abcdTotalPool.length} | Pominięto: ${abcdSkippedCount} / ${abcdTotalPool.length}`;
 
             const correctAnswerStr = formatWordString(abcdCurrentWord);
             let others = originalWords.filter(w => w.infinitive !== abcdCurrentWord.infinitive).sort(() => Math.random() - 0.5);
@@ -554,6 +933,14 @@
                 if (btn.innerText === correctAnswerStr) btn.classList.add("correct-ans");
             });
 
+            abcdHistory.push({
+                word: abcdCurrentWord,
+                userAnswer: selectedBtn.innerText,
+                correctAnswer: correctAnswerStr,
+                isCorrect: isCorrect,
+                skipped: false
+            });
+
             const feedbackEl = document.getElementById("abcd-feedback");
             if (isCorrect) {
                 abcdScoreCorrect++;
@@ -564,8 +951,165 @@
             }
 
             document.getElementById("abcd-counter-text").innerText = `Statystyki: Poprawne ${abcdScoreCorrect} / Wszystkie ${abcdScoreTotal}`;
+            document.getElementById("abcd-skip-btn").style.display = "none";
+            document.getElementById("abcd-end-btn").style.display = "none";
             document.getElementById("abcd-next-btn").style.display = "inline-block";
             document.getElementById("abcd-next-btn").focus();
+        }
+
+        function skipAbcdQuestion() {
+            abcdSkippedCount++;
+            const correctAnswerStr = formatWordString(abcdCurrentWord);
+
+            document.querySelectorAll(".option-btn").forEach(btn => {
+                btn.disabled = true;
+                if (btn.innerText === correctAnswerStr) btn.classList.add("correct-ans");
+            });
+
+            abcdHistory.push({
+                word: abcdCurrentWord,
+                userAnswer: "(Pominięto)",
+                correctAnswer: correctAnswerStr,
+                isCorrect: false,
+                skipped: true
+            });
+
+            document.getElementById("abcd-feedback").innerHTML = `<span class='skipped-text'>Pominięto słówko. Poprawna odpowiedź została zaznaczona na zielono.</span>`;
+            document.getElementById("abcd-skip-btn").style.display = "none";
+            document.getElementById("abcd-end-btn").style.display = "none";
+            document.getElementById("abcd-next-btn").style.display = "inline-block";
+            document.getElementById("abcd-next-btn").focus();
+        }
+
+        function showAbcdSummary() {
+            const box = document.getElementById("abcd-quiz-box");
+            let retryWords = [];
+
+            let listHtml = abcdHistory.map((item, idx) => {
+                const w = item.word;
+                if (item.skipped || !item.isCorrect) {
+                    retryWords.push(w);
+                }
+
+                if (item.skipped) {
+                    return `
+                        <div class="summary-item skipped">
+                            <div class="summary-item-content">
+                                <div>
+                                    <span class="summary-num">${idx + 1}.</span>
+                                    <span class="summary-word">${w.infinitive}</span>
+                                    <span class="summary-translation-badge">${w.translation}</span>
+                                    <strong style="color: #888; margin-left: 10px;">[Pominięto]</strong>
+                                </div>
+                                <div class="summary-details">
+                                    <span class="text-skipped">${w.infinitive}, ${w.pastSimple}, ${w.pastParticiple}</span>
+                                </div>
+                            </div>
+                            <div class="summary-score-badge">0/1</div>
+                        </div>
+                    `;
+                }
+
+                const statusClass = item.isCorrect ? 'perfect' : 'failed';
+                
+                let detailsHtml = item.isCorrect 
+                    ? `<span class="text-correct">${item.userAnswer}</span>`
+                    : `<span class="text-wrong">${item.userAnswer}</span> → <span class="text-correct">${item.correctAnswer}</span>`;
+
+                return `
+                    <div class="summary-item ${statusClass}">
+                        <div class="summary-item-content">
+                            <div>
+                                <span class="summary-num">${idx + 1}.</span>
+                                <span class="summary-word">${w.infinitive}</span>
+                                <span class="summary-translation-badge">${w.translation}</span>
+                            </div>
+                            <div class="summary-details">${detailsHtml}</div>
+                        </div>
+                        <div class="summary-score-badge">${item.isCorrect ? '1/1' : '0/1'}</div>
+                    </div>
+                `;
+            }).join('');
+
+            const percent = abcdHistory.length > 0 ? Math.round((abcdScoreCorrect/abcdHistory.length)*100) : 0;
+            window.abcdWrongWordsCache = retryWords;
+
+            let retryBtnHtml = retryWords.length > 0 
+                ? `<button class="btn-action btn-retry-wrong" onclick="retryAbcdWrongWords()">Powtórz błędne i pominięte (${retryWords.length})</button>`
+                : '';
+
+            box.innerHTML = `
+                <a href="#" class="quiz-reset-btn" onclick="restartAbcdQuiz(); return false;" title="Resetuj quiz">
+                    <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+                        <path d="M3 3v5h5"></path>
+                    </svg>
+                </a>
+                <h1>Koniec Quizu! 🎉</h1>
+                <div class="summary-score">Twój wynik całkowity: <strong>${abcdScoreCorrect} / ${abcdHistory.length}</strong> (${percent}%)</div>
+                <div class="summary-container">
+                    <div class="summary-title">Podsumowanie odpowiedzi:</div>
+                    <div class="summary-list">${listHtml}</div>
+                </div>
+            `;
+
+            let oldFooter = document.getElementById("abcd-summary-footer");
+            if (oldFooter) oldFooter.remove();
+
+            const footerBar = document.createElement("div");
+            footerBar.id = "abcd-summary-footer";
+            footerBar.className = "summary-footer-bar";
+            footerBar.innerHTML = `
+                <button class="btn-action" onclick="restartAbcdQuiz()">Zagraj ponownie</button>
+                ${retryBtnHtml}
+            `;
+            document.getElementById("abcd-quiz-tab").appendChild(footerBar);
+        }
+
+        function retryAbcdWrongWords() {
+            if (!window.abcdWrongWordsCache || !window.abcdWrongWordsCache.length) return;
+            let oldFooter = document.getElementById("abcd-summary-footer");
+            if (oldFooter) oldFooter.remove();
+
+            resetAbcdQuizUI();
+            initAbcdQueue(window.abcdWrongWordsCache);
+            loadNextAbcdQuestion();
+        }
+
+        function resetAbcdQuizUI() {
+            const tab = document.getElementById("abcd-quiz-tab");
+            tab.innerHTML = `
+                <div class="quiz-container" id="abcd-quiz-box">
+                    <a href="#" class="quiz-reset-btn" onclick="restartAbcdQuiz(); return false;" title="Resetuj quiz">
+                        <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+                            <path d="M3 3v5h5"></path>
+                        </svg>
+                    </a>
+                    <h1>Quiz: Wybierz Poprawne Formy</h1>
+                    <div class="counter" id="abcd-counter-text"></div>
+                    <div class="counter" id="abcd-progress-text" style="color: #4CAF50; margin-top: -8px; margin-bottom: 20px; font-weight: 700;"></div>
+                    
+                    <div class="translation-box">
+                        <div class="translation-label">Tłumaczenie (Polski)</div>
+                        <div class="translation-value" id="abcd-val-translation">-</div>
+                    </div>
+
+                    <div class="options-grid" id="abcd-options-container"></div>
+
+                    <div class="action-buttons-wrapper">
+                        <button class="btn-action btn-skip" id="abcd-skip-btn" onclick="skipAbcdQuestion()">Pomiń słówko</button>
+                        <button class="btn-action btn-end" id="abcd-end-btn" onclick="showAbcdSummary()">Zakończ quiz</button>
+                        <button class="btn-action btn-next" id="abcd-next-btn" onclick="loadNextAbcdQuestion()">Następne słówko</button>
+                    </div>
+
+                    <div class="feedback" id="abcd-feedback"></div>
+                </div>
+            `;
+        }
+
+        function restartAbcdQuiz() {
+            location.reload();
         }
 
         window.onload = function() {
