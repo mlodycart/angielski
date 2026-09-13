@@ -4,385 +4,112 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Czasowniki Nieregularne - Centrum Nauki</title>
-    <!-- Podpięcie czcionki Space Grotesk z Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
     <style>
-        * {
-            box-sizing: border-box;
-        }
-
-        /* Zapobieganie skakaniu menu przez pojawianie/znikanie paska przewijania */
-        html {
-            scrollbar-gutter: stable;
-            overflow-y: scroll;
-        }
-
-        body {
-            background-color: #121212;
-            color: #ffffff;
-            font-family: 'Space Grotesk', sans-serif;
-            font-weight: 500;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-        }
-
-        /* Nawigacja Główna - Przyciski przewijają się razem ze stroną */
-        nav {
-            width: 100%;
-            background-color: #1a1a1a;
-            border-bottom: 2px solid #333;
-            display: flex;
-            justify-content: center;
-            gap: 12px;
-            padding: 16px 10px;
-            /* Zwykły element w strumieniu dokumentu - przesuwa się przy skrolowaniu */
-        }
-        .nav-btn {
-            background-color: #2a2a2a;
-            color: #ccc;
-            border: 2px solid #444;
-            padding: 14px 24px;
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 18px;
-            font-weight: 700;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            text-align: center;
-        }
-        .nav-btn:hover {
-            background-color: #3d3d3d;
-            color: #fff;
-        }
-        .nav-btn.active {
-            background-color: #4CAF50;
-            color: #ffffff;
-            border-color: #4CAF50;
-        }
-
-        /* Kontenery Treści */
-        .tab-content {
-            display: none;
-            width: 100%;
-            max-width: 1250px;
-            padding: 30px 20px;
-        }
-        .tab-content.active {
-            display: block;
-        }
-
-        /* STEROWANIE ZOOMEM TABELI */
-        .zoom-controls {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 15px;
-            background-color: #1a1a1a;
-            padding: 10px 15px;
-            border-radius: 10px;
-            border: 1px solid #333;
-        }
-        .zoom-controls span {
-            font-size: 14px;
-            color: #aaa;
-            font-weight: bold;
-            margin-right: 5px;
-        }
-        .zoom-btn {
-            background-color: #2a2a2a;
-            color: white;
-            border: 1px solid #555;
-            padding: 8px 16px;
-            font-size: 18px;
-            font-weight: bold;
-            border-radius: 6px;
-            cursor: pointer;
-            touch-action: manipulation;
-        }
-        .zoom-btn:active {
-            background-color: #4CAF50;
-        }
-        #zoom-level-text {
-            font-size: 15px;
-            color: #4CAF50;
-            min-width: 50px;
-            text-align: center;
-            font-weight: bold;
-        }
-
-        /* TABELA STYL I ZOOOM CONTAINER */
-        .table-responsive {
-            width: 100%;
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
-            border-radius: 12px;
-            touch-action: pan-x pan-y; /* Umożliwia obsługę gestu pinch-to-zoom */
-        }
-        #table-zoom-wrapper {
-            transform-origin: top left;
-            transition: transform 0.1s ease-out;
-            width: 100%;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            background-color: #1a1a1a;
-            border-radius: 12px;
-            overflow: hidden;
-            font-size: 18px;
-            min-width: 600px; /* Zapewnia właściwy układ przed skalowaniem */
-        }
-        th, td {
-            padding: 18px 20px;
-            text-align: left;
-            border-bottom: 1px solid #2a2a2a;
-        }
-        th {
-            background-color: #0d0d0d;
-            font-weight: 700;
-            font-size: 20px;
-            border-bottom: 2px solid #444;
-            color: #4CAF50;
-        }
-        tr:nth-child(even) {
-            background-color: #242424;
-        }
-        .phonetic {
-            color: #aaaaaa;
-            font-size: 0.9em;
-        }
-
-        /* QUIZ STYL */
-        .quiz-container {
-            background-color: #2d2d2d;
-            padding: 40px 30px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.7);
-            text-align: center;
-            max-width: 1200px;
-            margin: 10px auto;
-        }
-        h1 {
-            color: #4CAF50;
-            margin-top: 0;
-            font-size: 38px;
-            font-weight: 700;
-            margin-bottom: 15px;
-        }
-        .translation-box {
-            background-color: #3d3d3d;
-            padding: 25px;
-            border-radius: 16px;
-            margin-bottom: 30px;
-        }
-        .translation-label {
-            font-size: 16px;
-            color: #aaaaaa;
-            margin-bottom: 8px;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-        }
-        .translation-value {
-            font-size: 46px;
-            font-weight: 700;
-            color: #ff9800;
-            word-break: break-word;
-        }
-        .inputs-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 20px;
-            margin-bottom: 30px;
-            text-align: left;
-        }
-        .input-group {
-            background-color: #3d3d3d;
-            padding: 20px;
-            border-radius: 14px;
-        }
-        .input-label {
-            font-size: 15px;
-            color: #aaaaaa;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-weight: 700;
-        }
-        input[type="text"] {
-            width: 100%;
-            padding: 16px 12px;
-            font-family: 'Space Grotesk', sans-serif;
-            font-weight: 700;
-            font-size: 22px;
-            border: 3px solid #555;
-            border-radius: 10px;
-            background-color: #1e1e1e;
-            color: white;
-            text-align: center;
-            box-sizing: border-box;
-        }
-        input[type="text"]:focus {
-            border-color: #4CAF50;
-            outline: none;
-        }
-        input:disabled {
-            background-color: #262626;
-            color: #dddddd;
-            border-color: #444;
-        }
+        * { box-sizing: border-box; }
+        html { scrollbar-gutter: stable; overflow-y: scroll; }
+        body { background-color: #121212; color: #fff; font-family: 'Space Grotesk', sans-serif; font-weight: 500; margin: 0; padding: 0; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
+        nav { width: 100%; background-color: #1a1a1a; border-bottom: 2px solid #333; display: flex; justify-content: center; gap: 12px; padding: 16px 10px; }
+        .nav-btn { background-color: #2a2a2a; color: #ccc; border: 2px solid #444; padding: 14px 24px; font-family: inherit; font-size: 18px; font-weight: 700; border-radius: 10px; cursor: pointer; transition: all 0.2s; text-align: center; }
+        .nav-btn:hover { background-color: #3d3d3d; color: #fff; }
+        .nav-btn.active { background-color: #4CAF50; color: #fff; border-color: #4CAF50; }
+        .tab-content { display: none; width: 100%; max-width: 1250px; padding: 30px 20px; }
+        .tab-content.active { display: block; }
         
-        /* ABCD QUIZ STYL */
-        .options-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-            margin-bottom: 30px;
-        }
-        .option-btn {
-            background-color: #3d3d3d;
-            color: white;
-            border: 3px solid #555;
-            padding: 20px 24px;
-            font-family: 'Space Grotesk', sans-serif;
-            font-weight: 700;
-            font-size: 22px;
-            border-radius: 14px;
-            cursor: pointer;
-            transition: all 0.2s;
-            text-align: left;
-            width: 100%;
-        }
-        .option-btn:hover:not(:disabled) {
-            background-color: #4d4d4d;
-            border-color: #4CAF50;
-        }
-        .option-btn.correct-ans {
-            background-color: #2e7d32 !important;
-            border-color: #4CAF50 !important;
-        }
-        .option-btn.wrong-ans {
-            background-color: #c62828 !important;
-            border-color: #f44336 !important;
-        }
-
-        /* PRZYCISKI I POMOCNICZE */
-        .btn-action {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            padding: 18px 40px;
-            font-family: 'Space Grotesk', sans-serif;
-            font-weight: 700;
-            font-size: 22px;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            margin: 5px;
-            width: 100%;
-            max-width: 320px;
-        }
-        .btn-action:hover {
-            background-color: #45a049;
-        }
-        .btn-next {
-            background-color: #2196F3 !important;
-            display: none;
-        }
-        .btn-next:hover {
-            background-color: #1976D2 !important;
-        }
-        .feedback {
-            margin-top: 25px;
-            font-size: 22px;
-            font-weight: 700;
-            min-height: 40px;
-            line-height: 1.4;
-        }
+        .table-header-bar { display: flex; justify-content: space-between; align-items: center; gap: 15px; margin-bottom: 20px; background-color: #1a1a1a; padding: 14px 20px; border-radius: 12px; border: 1px solid #333; flex-wrap: wrap; }
+        
+        .zoom-controls { display: flex; align-items: center; gap: 12px; }
+        .zoom-controls span { font-size: 20px; color: #aaa; font-weight: 700; }
+        /* ZMIANA TŁA PRZYCISKÓW ROZMIARU NA #262626 */
+        .zoom-btn { background-color: #262626; color: white; border: 2px solid #444; padding: 12px 20px; font-size: 20px; font-weight: 700; border-radius: 10px; cursor: pointer; touch-action: manipulation; line-height: 1; display: inline-flex; align-items: center; justify-content: center; transition: background-color 0.2s, border-color 0.2s; }
+        .zoom-btn:hover { border-color: #4CAF50; background-color: #333333; }
+        .zoom-btn:active { background-color: #4CAF50; }
+        #zoom-level-text { font-size: 20px; color: #4CAF50; min-width: 65px; text-align: center; font-weight: 700; }
+        
+        .search-box { display: flex; align-items: center; gap: 10px; flex-grow: 1; max-width: 400px; }
+        .search-input { width: 100%; padding: 12px 16px; font-family: inherit; font-size: 18px; border: 2px solid #444; border-radius: 10px; background-color: #262626; color: white; outline: none; }
+        .search-input:focus { border-color: #4CAF50; }
+        
+        .table-responsive { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: 12px; touch-action: pan-x pan-y; }
+        #table-zoom-wrapper { transform-origin: top left; transition: transform 0.1s ease-out; width: 100%; }
+        
+        table { width: 100%; border-collapse: collapse; background-color: #1a1a1a; border-radius: 12px; overflow: hidden; font-size: 18px; min-width: 600px; table-layout: fixed; }
+        th, td { padding: 18px 20px; text-align: left; border-bottom: 1px solid #2a2a2a; transition: background-color 0.3s, color 0.3s; width: 25%; word-wrap: break-word; }
+        th { background-color: #0d0d0d; font-weight: 700; font-size: 20px; border-bottom: 2px solid #444; color: #4CAF50; }
+        tr:nth-child(even) { background-color: #242424; }
+        .phonetic { color: #aaaaaa; font-size: 0.9em; }
+        tr.highlighted-row { background-color: #ffd700 !important; color: #000 !important; font-weight: bold; }
+        tr.highlighted-row td { color: #000 !important; }
+        tr.highlighted-row .phonetic { color: #333 !important; }
+        
+        .quiz-container { background-color: #2d2d2d; padding: 40px 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.7); text-align: center; max-width: 1200px; margin: 10px auto; }
+        h1 { color: #4CAF50; margin-top: 0; font-size: 38px; font-weight: 700; margin-bottom: 15px; }
+        .translation-box { background-color: #3d3d3d; padding: 25px; border-radius: 16px; margin-bottom: 30px; }
+        .translation-label { font-size: 16px; color: #aaa; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1.5px; }
+        .translation-value { font-size: 46px; font-weight: 700; color: #ff9800; word-break: break-word; }
+        .inputs-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; margin-bottom: 30px; text-align: left; }
+        .input-group { background-color: #3d3d3d; padding: 20px; border-radius: 14px; }
+        .input-label { font-size: 15px; color: #aaa; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; }
+        
+        input[type="text"] { width: 100%; padding: 16px 12px; font-family: inherit; font-weight: 700; font-size: 22px; border: 3px solid #555; border-radius: 10px; background-color: #262626; color: white; text-align: center; box-sizing: border-box; }
+        input[type="text"]:focus { border-color: #4CAF50; outline: none; }
+        input:disabled { background-color: #262626; color: #888; border-color: #555; opacity: 1; }
+        
+        .options-grid { display: flex; flex-direction: column; gap: 16px; margin-bottom: 30px; }
+        .option-btn { background-color: #3d3d3d; color: white; border: 3px solid #555; padding: 20px 24px; font-family: inherit; font-weight: 700; font-size: 22px; border-radius: 14px; cursor: pointer; transition: all 0.2s; text-align: left; width: 100%; }
+        .option-btn:hover:not(:disabled) { background-color: #4d4d4d; border-color: #4CAF50; }
+        .option-btn.correct-ans { background-color: #2e7d32 !important; border-color: #4CAF50 !important; }
+        .option-btn.wrong-ans { background-color: #c62828 !important; border-color: #f44336 !important; }
+        
+        .btn-action { background-color: #4CAF50; color: white; border: none; padding: 18px 40px; font-family: inherit; font-weight: 700; font-size: 22px; border-radius: 12px; cursor: pointer; transition: background-color 0.3s; margin: 5px; width: 100%; max-width: 320px; }
+        .btn-action:hover { background-color: #45a049; }
+        .btn-next { background-color: #2196F3 !important; display: none; }
+        .btn-next:hover { background-color: #1976D2 !important; }
+        .feedback { margin-top: 25px; font-size: 22px; font-weight: 700; min-height: 40px; line-height: 1.4; }
         .correct { color: #4CAF50; }
         .incorrect { color: #f44336; }
-        .counter {
-            font-size: 18px;
-            color: #aaa;
-            margin-bottom: 15px;
-        }
+        .counter { font-size: 18px; color: #aaa; margin-bottom: 15px; }
 
-        /* MEDIA QUERIES - RESPONSYWNOŚĆ NA TELEFONY */
         @media (max-width: 768px) {
-            nav {
-                flex-direction: column;
-                padding: 12px 15px;
-                gap: 8px;
-            }
-            .nav-btn {
-                width: 100%;
-                font-size: 16px;
-                padding: 12px 16px;
-            }
-            .tab-content {
-                padding: 15px 10px;
-            }
-            .quiz-container {
-                padding: 25px 15px;
-                border-radius: 14px;
-            }
-            h1 {
-                font-size: 26px;
-            }
-            .translation-value {
-                font-size: 34px;
-            }
-            .inputs-grid {
-                grid-template-columns: 1fr;
-                gap: 15px;
-            }
-            input[type="text"] {
-                font-size: 20px;
-                padding: 14px 10px;
-            }
-            .option-btn {
-                font-size: 18px;
-                padding: 16px 18px;
-            }
-            .btn-action {
-                font-size: 18px;
-                padding: 16px 20px;
-                max-width: 100%;
-            }
-            th, td {
-                padding: 12px 14px;
-                font-size: 16px;
-            }
-            th {
-                font-size: 17px;
-            }
+            nav { flex-direction: column; padding: 12px 15px; gap: 8px; }
+            .nav-btn { width: 100%; font-size: 16px; padding: 12px 16px; }
+            .table-header-bar { flex-direction: column; align-items: stretch; }
+            .search-box { max-width: 100%; }
+            .tab-content { padding: 15px 10px; }
+            .quiz-container { padding: 25px 15px; border-radius: 14px; }
+            h1 { font-size: 26px; }
+            .translation-value { font-size: 34px; }
+            .inputs-grid { grid-template-columns: 1fr; gap: 15px; }
+            input[type="text"] { font-size: 20px; padding: 14px 10px; }
+            .option-btn { font-size: 18px; padding: 16px 18px; }
+            .btn-action { font-size: 18px; padding: 16px 20px; max-width: 100%; }
+            th, td { padding: 12px 14px; font-size: 16px; }
+            th { font-size: 17px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Menu Nawigacyjne (przewija się ze stroną) -->
     <nav>
         <button id="btn-table-tab" class="nav-btn" onclick="switchTab('table-tab')">Tabela Słówek</button>
         <button id="btn-input-quiz-tab" class="nav-btn" onclick="switchTab('input-quiz-tab')">Quiz: Wpisywanie</button>
         <button id="btn-abcd-quiz-tab" class="nav-btn" onclick="switchTab('abcd-quiz-tab')">Quiz: Wybór (ABCD)</button>
     </nav>
 
-    <!-- ZAKŁADKA 1: TABELA -->
     <div id="table-tab" class="tab-content">
-        <!-- Panel sterowania skalą tabeli -->
-        <div class="zoom-controls">
-            <span>Rozmiar tabeli:</span>
-            <button class="zoom-btn" onclick="adjustZoom(-0.1)">-</button>
-            <span id="zoom-level-text">100%</span>
-            <button class="zoom-btn" onclick="adjustZoom(0.1)">+</button>
-            <button class="zoom-btn" onclick="resetZoom()" style="font-size:14px; margin-left:10px;">Reset</button>
+        <div class="table-header-bar">
+            <div class="zoom-controls">
+                <span>Rozmiar:</span>
+                <button class="zoom-btn" onclick="adjustZoom(-0.1)">-</button>
+                <span id="zoom-level-text">100%</span>
+                <button class="zoom-btn" onclick="adjustZoom(0.1)">+</button>
+                <button class="zoom-btn" onclick="resetZoom()" style="font-size:16px; padding: 12px 16px;">Reset</button>
+            </div>
+            <div class="search-box">
+                <input type="text" id="table-search-input" class="search-input" placeholder="Szukaj..." onkeydown="if(event.key==='Enter') searchTable()" onblur="searchTable()" autocomplete="off">
+            </div>
         </div>
 
         <div class="table-responsive" id="table-container">
@@ -396,15 +123,12 @@
                             <th>Tłumaczenie</th>
                         </tr>
                     </thead>
-                    <tbody id="table-body">
-                        <!-- Tabela generowana dynamicznie w JS -->
-                    </tbody>
+                    <tbody id="table-body"></tbody>
                 </table>
             </div>
         </div>
     </div>
 
-    <!-- ZAKŁADKA 2: QUIZ WPISYWANIE -->
     <div id="input-quiz-tab" class="tab-content">
         <div class="quiz-container">
             <h1>Quiz: Wpisz Formy Krok po Kroku</h1>
@@ -438,7 +162,6 @@
         </div>
     </div>
 
-    <!-- ZAKŁADKA 3: QUIZ ABCD -->
     <div id="abcd-quiz-tab" class="tab-content">
         <div class="quiz-container">
             <h1>Quiz: Wybierz Poprawne Formy</h1>
@@ -450,9 +173,7 @@
                 <div class="translation-value" id="abcd-val-translation">-</div>
             </div>
 
-            <div class="options-grid" id="abcd-options-container">
-                <!-- Opcje wyboru -->
-            </div>
+            <div class="options-grid" id="abcd-options-container"></div>
 
             <button class="btn-action btn-next" id="abcd-next-btn" onclick="loadNextAbcdQuestion()">Następne słówko</button>
 
@@ -461,227 +182,199 @@
     </div>
 
     <script>
-        // BAZA DANYCH SŁÓWEK
-        const originalWords = [
-            { infinitive: "oversleep", pastSimple: "overslept", pastParticiple: "overslept", translation: "zaspać", phon: ["/ˌəʊvəˈsliːp/", "/ˌəʊvəˈslept/", "/ˌəʊvəˈslept/"] },
-            { infinitive: "pay", pastSimple: "paid", pastParticiple: "paid", translation: "płacić", phon: ["/peɪ/", "/peɪd/", "/peɪd/"] },
-            { infinitive: "prove", pastSimple: "proved", pastParticiple: "proved / proven", translation: "udowodnić", phon: ["/pruːv/", "/pruːvd/", "/pruːvd/ /ˈpruːvn/"] },
-            { infinitive: "put", pastSimple: "put", pastParticiple: "put", translation: "położyć", phon: ["/pʊt/", "/pʊt/", "/pʊt/"] },
-            { infinitive: "quit", pastSimple: "quit", pastParticiple: "quit", translation: "rezygnować, opuszczać", phon: ["/kwɪt/", "/kwɪt/", "/kwɪt/"] },
-            { infinitive: "read", pastSimple: "read", pastParticiple: "read", translation: "czytać", phon: ["/riːd/", "/red/", "/red/"] },
-            { infinitive: "rid", pastSimple: "rid", pastParticiple: "rid", translation: "pozbyć się", phon: ["/rɪd/", "/rɪd/", "/rɪd/"] },
-            { infinitive: "ride", pastSimple: "rode", pastParticiple: "ridden", translation: "jeździć na", phon: ["/raɪd/", "/rəʊd/", "/ˈrɪdn/"] },
-            { infinitive: "ring", pastSimple: "rang", pastParticiple: "rung", translation: "dzwonić", phon: ["/rɪŋ/", "/ræŋ/", "/rʌŋ/"] },
-            { infinitive: "rise", pastSimple: "rose", pastParticiple: "risen", translation: "powstawać, rosnąć", phon: ["/raɪz/", "/rəʊz/", "/ˈrɪzn/"] },
-            { infinitive: "run", pastSimple: "ran", pastParticiple: "run", translation: "biegać", phon: ["/rʌn/", "/ræn/", "/rʌn/"] },
-            { infinitive: "say", pastSimple: "said", pastParticiple: "said", translation: "powiedzieć", phon: ["/seɪ/", "/sed/", "/sed/"] },
-            { infinitive: "see", pastSimple: "saw", pastParticiple: "seen", translation: "zobaczyć", phon: ["/siː/", "/sɔː/", "/siːn/"] },
-            { infinitive: "seek", pastSimple: "sought", pastParticiple: "sought", translation: "szukać", phon: ["/siːk/", "/sɔːt/", "/sɔːt/"] },
-            { infinitive: "sell", pastSimple: "sold", pastParticiple: "sold", translation: "sprzedać", phon: ["/sel/", "/səʊld/", "/səʊld/"] },
-            { infinitive: "send", pastSimple: "sent", pastParticiple: "sent", translation: "wysłać", phon: ["/send/", "/sent/", "/sent/"] },
-            { infinitive: "set", pastSimple: "set", pastParticiple: "set", translation: "ustawić", phon: ["/set/", "/set/", "/set/"] },
-            { infinitive: "sew", pastSimple: "sewed", pastParticiple: "sewn / sewed", translation: "szyć", phon: ["/səʊ/", "/səʊd/", "/səʊn/ /səʊd/"] },
-            { infinitive: "shake", pastSimple: "shook", pastParticiple: "shaken", translation: "trząść, potrząsać", phon: ["/ʃeɪk/", "/ʃʊk/", "/ˈʃeɪkən/"] },
-            { infinitive: "shed", pastSimple: "shed", pastParticiple: "shed", translation: "zrzucić, pozbyć się", phon: ["/ʃed/", "/ʃed/", "/ʃed/"] },
-            { infinitive: "shine", pastSimple: "shone", pastParticiple: "shone", translation: "świecić", phon: ["/ʃaɪn/", "/ʃɒn/", "/ʃɒn/"] },
-            { infinitive: "shoot", pastSimple: "shot", pastParticiple: "shot", translation: "strzelać", phon: ["/ʃuːt/", "/ʃɒt/", "/ʃɒt/"] },
-            { infinitive: "show", pastSimple: "showed", pastParticiple: "shown", translation: "pokazać", phon: ["/ʃəʊ/", "/ʃəʊd/", "/ʃəʊn/"] },
-            { infinitive: "shrink", pastSimple: "shrank", pastParticiple: "shrunk", translation: "kurczyć się", phon: ["/ʃrɪŋk/", "/ʃræŋk/", "/ʃrʌŋk/"] },
-            { infinitive: "shut", pastSimple: "shut", pastParticiple: "shut", translation: "zamknąć", phon: ["/ʃʌt/", "/ʃʌt/", "/ʃʌt/"] },
-            { infinitive: "sing", pastSimple: "sang", pastParticiple: "sung", translation: "śpiewać", phon: ["/sɪŋ/", "/sæŋ/", "/sʌŋ/"] },
-            { infinitive: "sink", pastSimple: "sank", pastParticiple: "sunk", translation: "tonąć", phon: ["/sɪŋk/", "/sæŋk/", "/sʌŋk/"] },
-            { infinitive: "sit", pastSimple: "sat", pastParticiple: "sat", translation: "siedzieć", phon: ["/sɪt/", "/sæt/", "/sæt/"] },
-            { infinitive: "sleep", pastSimple: "slept", pastParticiple: "slept", translation: "spać", phon: ["/sliːp/", "/slept/", "/slept/"] },
-            { infinitive: "slide", pastSimple: "slid", pastParticiple: "slid", translation: "zjeżdżać, ślizgać się", phon: ["/slaɪd/", "/slɪd/", "/slɪd/"] },
-            { infinitive: "smell", pastSimple: "smelled / smelt", pastParticiple: "smelled / smelt", translation: "pachnieć, wąchać", phon: ["/smel/", "/smeld/ /smelt/", "/smeld/ /smelt/"] },
-            { infinitive: "sow", pastSimple: "sowed", pastParticiple: "sown / sowed", translation: "siać", phon: ["/səʊ/", "/səʊd/", "/səʊn/ /səʊd/"] },
-            { infinitive: "speak", pastSimple: "spoke", pastParticiple: "spoken", translation: "mówić", phon: ["/spiːk/", "/spəʊk/", "/ˈspəʊkən/"] },
-            { infinitive: "speed", pastSimple: "sped / speeded", pastParticiple: "sped / speeded", translation: "przyspieszyć", phon: ["/spiːd/", "/sped/ /ˈspiːdɪd/", "/sped/ /ˈspiːdɪd/"] },
-            { infinitive: "spell", pastSimple: "spelt", pastParticiple: "spelt", translation: "przeliterować", phon: ["/spel/", "/spelt/", "/spelt/"] },
-            { infinitive: "spend", pastSimple: "spent", pastParticiple: "spent", translation: "spędzać", phon: ["/spend/", "/spent/", "/spent/"] },
-            { infinitive: "spill", pastSimple: "spilled / spilt", pastParticiple: "spilled / spilt", translation: "rozlać", phon: ["/spɪl/", "/spɪld/ /spɪlt/", "/spɪld/ /spɪlt/"] },
-            { infinitive: "spin", pastSimple: "spun / span", pastParticiple: "spun", translation: "wirować", phon: ["/spɪn/", "/spæn/ /spʌn/", "/spʌn/"] },
-            { infinitive: "spit", pastSimple: "spat / spit", pastParticiple: "spat / spit", translation: "pluć", phon: ["/spɪt/", "/spæt/ /spɪt/", "/spæt/ /spɪt/"] },
-            { infinitive: "split", pastSimple: "split", pastParticiple: "split", translation: "rozdzielić", phon: ["/splɪt/", "/splɪt/", "/splɪt/"] },
-            { infinitive: "spoil", pastSimple: "spoilt", pastParticiple: "spoilt", translation: "zepsuć", phon: ["/spɔɪl/", "/spɔɪlt/", "/spɔɪlt/"] },
-            { infinitive: "spread", pastSimple: "spread", pastParticiple: "spread", translation: "rozprzestrzenić", phon: ["/spred/", "/spred/", "/spred/"] },
-            { infinitive: "spring", pastSimple: "sprang", pastParticiple: "sprung", translation: "odskakiwać, odbijać", phon: ["/sprɪŋ/", "/spræŋ/", "/sprʌŋ/"] },
-            { infinitive: "stand", pastSimple: "stood", pastParticiple: "stood", translation: "stać", phon: ["/stænd/", "/stʊd/", "/stʊd/"] },
-            { infinitive: "steal", pastSimple: "stole", pastParticiple: "stolen", translation: "ukraść", phon: ["/stiːl/", "/stəʊl/", "/ˈstəʊlən/"] },
-            { infinitive: "stick", pastSimple: "stuck", pastParticiple: "stuck", translation: "wbijać, wtykać, przyklejać", phon: ["/stɪk/", "/stʌk/", "/stʌk/"] },
-            { infinitive: "sting", pastSimple: "stung", pastParticiple: "stung", translation: "ukłuć", phon: ["/stɪŋ/", "/stʌŋ/", "/stʌŋ/"] },
-            { infinitive: "stink", pastSimple: "stank", pastParticiple: "stunk", translation: "śmierdzieć", phon: ["/stɪŋk/", "/stæŋk/", "/stʌŋk/"] },
-            { infinitive: "stride", pastSimple: "strode", pastParticiple: "strridden", translation: "kroczyć", phon: ["/straɪd/", "/strəʊd/", "/ˈstrɪdn/"] },
-            { infinitive: "strike", pastSimple: "struck", pastParticiple: "struck", translation: "uderzyć, wybić", phon: ["/straɪk/", "/strʌk/", "/strʌk/"] },
-            { infinitive: "strive", pastSimple: "strove", pastParticiple: "striven", translation: "dążyć do czegoś, usiłować", phon: ["/straɪv/", "/strəʊv/", "/ˈstrɪvn/"] },
-            { infinitive: "swear", pastSimple: "swore", pastParticiple: "sworn", translation: "przysięgać", phon: ["/sweə/", "/swɔː/", "/swɔːn/"] },
-            { infinitive: "sweep", pastSimple: "swept", pastParticiple: "swept", translation: "zamiatać", phon: ["/swiːp/", "/swept/", "/swept/"] },
-            { infinitive: "swell", pastSimple: "swelled", pastParticiple: "swollen / swelled", translation: "puchnąć", phon: ["/swel/", "/sweld/", "/ˈswəʊlən/ /sweld/"] },
-            { infinitive: "swim", pastSimple: "swam", pastParticiple: "swum", translation: "pływać", phon: ["/swɪm/", "/swæm/", "/swʌm/"] },
-            { infinitive: "swing", pastSimple: "swung", pastParticiple: "swung", translation: "zakołysać, zamachnąć", phon: ["/swɪŋ/", "/swʌŋ/", "/swʌŋ/"] },
-            { infinitive: "take", pastSimple: "took", pastParticiple: "taken", translation: "wziąć", phon: ["/teɪk/", "/tʊk/", "/ˈteɪkən/"] },
-            { infinitive: "teach", pastSimple: "taught", pastParticiple: "taught", translation: "uczyć", phon: ["/tiːtʃ/", "/tɔːt/", "/tɔːt/"] },
-            { infinitive: "tear", pastSimple: "tore", pastParticiple: "torn", translation: "podrzeć", phon: ["/teə/", "/tɔː/", "/tɔːn/"] },
-            { infinitive: "tell", pastSimple: "told", pastParticiple: "told", translation: "powiedzieć", phon: ["/tel/", "/təʊld/", "/təʊld/"] },
-            { infinitive: "think", pastSimple: "thought", pastParticiple: "thought", translation: "myśleć", phon: ["/θɪŋk/", "/θɔːt/", "/θɔːt/"] },
-            { infinitive: "throw", pastSimple: "threw", pastParticiple: "thrown", translation: "rzucać", phon: ["/θrəʊ/", "/θruː/", "/θrəʊn/"] },
-            { infinitive: "thrust", pastSimple: "thrust", pastParticiple: "thrust", translation: "pchnąć", phon: ["/θrʌst/", "/θrʌst/", "/θrʌst/"] },
-            { infinitive: "tread", pastSimple: "trod", pastParticiple: "trodden", translation: "stąpać", phon: ["/tred/", "/trɒd/", "/ˈtrɒdn/"] },
-            { infinitive: "undergo", pastSimple: "underwent", pastParticiple: "undergone", translation: "poddać się czemuś, przejść", phon: ["/ˌʌndəˈɡəʊ/", "/ˌʌndəˈwent/", "/ˌʌndəˈɡɒn/"] },
-            { infinitive: "understand", pastSimple: "understood", pastParticiple: "understood", translation: "rozumieć", phon: ["/ˌʌndəˈstænd/", "/ˌʌndəˈstʊd/", "/ˌʌndəˈstʊd/"] },
-            { infinitive: "upset", pastSimple: "upset", pastParticiple: "upset", translation: "zasmucić", phon: ["/ʌpˈset/", "/ʌpˈset/", "/ʌpˈset/"] },
-            { infinitive: "wake", pastSimple: "woke", pastParticiple: "woken", translation: "obudzić się", phon: ["/weɪk/", "/weʊk/", "/ˈweʊkən/"] },
-            { infinitive: "weave", pastSimple: "wove", pastParticiple: "woven", translation: "tkać", phon: ["/wiːv/", "/wəʊv/", "/ˈwəʊvən/"] },
-            { infinitive: "wear", pastSimple: "wore", pastParticiple: "worn", translation: "nosić", phon: ["/weə/", "/wɔː/", "/wɔːn/"] },
-            { infinitive: "win", pastSimple: "won", pastParticiple: "won", translation: "wygrać", phon: ["/wɪn/", "/wʌn/", "/wʌn/"] },
-            { infinitive: "wind", pastSimple: "wound", pastParticiple: "wound", translation: "nawijać, nakręcić", phon: ["/waɪnd/", "/waʊnd/", "/waʊnd/"] },
-            { infinitive: "withdraw", pastSimple: "withdrew", pastParticiple: "withdrawn", translation: "wycofać się", phon: ["/wɪðˈdrɔː/", "/wɪðˈdruː/", "/wɪðˈdrɔːn/"] },
-            { infinitive: "wring", pastSimple: "wrung", pastParticiple: "wrung", translation: "wykręcić, wycisnąć", phon: ["/rɪŋ/", "/rʌŋ/", "/rʌŋ/"] },
-            { infinitive: "write", pastSimple: "wrote", pastParticiple: "written", translation: "pisać", phon: ["/raɪt/", "/rəʊt/", "/ˈrɪtn/"] }
+        const rawWords = [
+            ["oversleep", "overslept", "overslept", "zaspać"],
+            ["pay", "paid", "paid", "płacić"],
+            ["prove", "proved", "proved / proven", "udowodnić"],
+            ["put", "put", "put", "położyć"],
+            ["quit", "quit", "quit", "rezygnować, opuszczać"],
+            ["read", "read", "read", "czytać"],
+            ["rid", "rid", "rid", "pozbyć się"],
+            ["ride", "rode", "ridden", "jeździć na"],
+            ["ring", "rang", "rung", "dzwonić"],
+            ["rise", "rose", "risen", "powstawać, rosnąć"],
+            ["run", "ran", "run", "biegać"],
+            ["say", "said", "said", "powiedzieć"],
+            ["see", "saw", "seen", "zobaczyć"],
+            ["seek", "sought", "sought", "szukać"],
+            ["sell", "sold", "sold", "sprzedać"],
+            ["send", "sent", "sent", "wysłać"],
+            ["set", "set", "set", "ustawić"],
+            ["sew", "sewed", "sewn / sewed", "szyć"],
+            ["shake", "shook", "shaken", "trząść, potrząsać"],
+            ["shed", "shed", "shed", "zrzucić, pozbyć się"],
+            ["shine", "shone", "shone", "świecić"],
+            ["shoot", "shot", "shot", "strzelać"],
+            ["show", "showed", "shown", "pokazać"],
+            ["shrink", "shrank", "shrunk", "kurczyć się"],
+            ["shut", "shut", "shut", "zamknąć"],
+            ["sing", "sang", "sung", "śpiewać"],
+            ["sink", "sank", "sunk", "tonąć"],
+            ["sit", "sat", "sat", "siedzieć"],
+            ["sleep", "slept", "slept", "spać"],
+            ["slide", "slid", "slid", "zjeżdżać, ślizgać się"],
+            ["smell", "smelled / smelt", "smelled / smelt", "pachnieć, wąchać"],
+            ["sow", "sowed", "sown / sowed", "siać"],
+            ["speak", "spoke", "spoken", "mówić"],
+            ["speed", "sped / speeded", "sped / speeded", "przyspieszyć"],
+            ["spell", "spelt", "spelt", "przeliterować"],
+            ["spend", "spent", "spent", "spędzać"],
+            ["spill", "spilled / spilt", "spilled / spilt", "rozlać"],
+            ["spin", "spun / span", "spun", "wirować"],
+            ["spit", "spat / spit", "spat / spit", "pluć"],
+            ["split", "split", "split", "rozdzielić"],
+            ["spoil", "spoilt", "spoilt", "zepsuć"],
+            ["spread", "spread", "spread", "rozprzestrzenić"],
+            ["spring", "sprang", "sprung", "odskakiwać, odbijać"],
+            ["stand", "stood", "stood", "stać"],
+            ["steal", "stole", "stolen", "ukraść"],
+            ["stick", "stuck", "stuck", "wbijać, wtykać, przyklejać"],
+            ["sting", "stung", "stung", "ukłuć"],
+            ["stink", "stank", "stunk", "śmierdzieć"],
+            ["stride", "strode", "strridden", "kroczyć"],
+            ["strike", "struck", "struck", "uderzyć, wybić"],
+            ["strive", "strove", "striven", "dążyć do czegoś, usiłować"],
+            ["swear", "swore", "sworn", "przysięgać"],
+            ["sweep", "swept", "swept", "zamiatać"],
+            ["swell", "swelled", "swollen / swelled", "puchnąć"],
+            ["swim", "swam", "swum", "pływać"],
+            ["swing", "swung", "swung", "zakołysać, zamachnąć"],
+            ["take", "took", "taken", "wziąć"],
+            ["teach", "taught", "taught", "uczyć"],
+            ["tear", "tore", "torn", "podrzeć"],
+            ["tell", "told", "told", "powiedzieć"],
+            ["think", "thought", "thought", "myśleć"],
+            ["throw", "threw", "thrown", "rzucać"],
+            ["thrust", "thrust", "thrust", "pchnąć"],
+            ["tread", "trod", "trodden", "stąpać"],
+            ["undergo", "underwent", "undergone", "poddać się czemuś, przejść"],
+            ["understand", "understood", "understood", "rozumieć"],
+            ["upset", "upset", "upset", "zasmucić"],
+            ["wake", "woke", "woken", "obudzić się"],
+            ["weave", "wove", "woven", "tkać"],
+            ["wear", "wore", "worn", "nosić"],
+            ["win", "won", "won", "wygrać"],
+            ["wind", "wound", "wound", "nawijać, nakręcić"],
+            ["withdraw", "withdrew", "withdrawn", "wycofać się"],
+            ["wring", "wrung", "wrung", "wykręcić, wycisnąć"],
+            ["write", "wrote", "written", "pisać"]
         ];
 
-        // LOGIKA NAWIGACJI Z ZAPISYWANIEM OSTATNIEJ ZAKŁADKI
-        function switchTab(tabId) {
-            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-            document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
-            
-            const selectedTab = document.getElementById(tabId);
-            const selectedBtn = document.getElementById("btn-" + tabId);
+        const originalWords = rawWords.map(w => ({
+            infinitive: w[0], pastSimple: w[1], pastParticiple: w[2], translation: w[3]
+        }));
 
-            if (selectedTab && selectedBtn) {
-                selectedTab.classList.add('active');
-                selectedBtn.classList.add('active');
-                localStorage.setItem('activeTab', tabId);
-            }
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content, .nav-btn').forEach(el => el.classList.remove('active'));
+            document.getElementById(tabId)?.classList.add('active');
+            document.getElementById("btn-" + tabId)?.classList.add('active');
+            localStorage.setItem('activeTab', tabId);
         }
 
-        // GENEROWANIE TABELI
         function buildTable() {
-            const tbody = document.getElementById('table-body');
-            tbody.innerHTML = originalWords.map(w => `
-                <tr>
-                    <td>${w.infinitive} <span class="phonetic">${w.phon ? w.phon[0] : ''}</span></td>
-                    <td>${w.pastSimple} <span class="phonetic">${w.phon ? w.phon[1] : ''}</span></td>
-                    <td>${w.pastParticiple} <span class="phonetic">${w.phon ? w.phon[2] : ''}</span></td>
+            document.getElementById('table-body').innerHTML = originalWords.map((w, idx) => `
+                <tr id="row-word-${idx}">
+                    <td>${w.infinitive}</td>
+                    <td>${w.pastSimple}</td>
+                    <td>${w.pastParticiple}</td>
                     <td>${w.translation}</td>
                 </tr>
             `).join('');
         }
 
-        // OBSŁUGA SKALOWANIA / ZOOMU TABELI (Z ZAPISYWANIEM W LOCALSTORAGE)
+        function searchTable() {
+            const query = document.getElementById("table-search-input").value.trim().toLowerCase();
+            
+            document.querySelectorAll("#table-body tr").forEach(tr => tr.classList.remove("highlighted-row"));
+            
+            if (!query) return;
+
+            let matchingIndexes = [];
+            
+            originalWords.forEach((w, idx) => {
+                const fields = [w.infinitive, w.pastSimple, w.pastParticiple, w.translation];
+                
+                const isMatch = fields.some(field => {
+                    const clean = field.toLowerCase();
+                    return clean.startsWith(query) || clean.split(/[\s\/,]+/).some(part => part.startsWith(query));
+                });
+
+                if (isMatch) {
+                    matchingIndexes.push(idx);
+                }
+            });
+
+            if (matchingIndexes.length === 1) {
+                const foundIdx = matchingIndexes[0];
+                const row = document.getElementById(`row-word-${foundIdx}`);
+                if (row) {
+                    row.classList.add("highlighted-row");
+                    row.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            }
+        }
+
         let currentZoom = parseFloat(localStorage.getItem('tableZoom')) || 1.0;
 
         function updateZoomDisplay() {
             const wrapper = document.getElementById('table-zoom-wrapper');
             const zoomText = document.getElementById('zoom-level-text');
-            
             if (wrapper && zoomText) {
                 wrapper.style.transform = `scale(${currentZoom})`;
-                // Dostosowujemy szerokość, by margines nie uciekał
                 wrapper.style.width = `${100 / currentZoom}%`;
                 zoomText.innerText = `${Math.round(currentZoom * 100)}%`;
                 localStorage.setItem('tableZoom', currentZoom);
             }
         }
 
-        function adjustZoom(delta) {
-            currentZoom = Math.min(Math.max(0.4, currentZoom + delta), 1.5);
-            updateZoomDisplay();
-        }
+        function adjustZoom(delta) { currentZoom = Math.min(Math.max(0.4, currentZoom + delta), 1.5); updateZoomDisplay(); }
+        function resetZoom() { currentZoom = 1.0; updateZoomDisplay(); }
 
-        function resetZoom() {
-            currentZoom = 1.0;
-            updateZoomDisplay();
-        }
-
-        // GEŚT PINCH-TO-ZOOM DLA TELEFONÓW NA TABELI
         let initialDistance = -1;
-
         function initPinchZoom() {
             const container = document.getElementById('table-container');
-
-            container.addEventListener('touchstart', (e) => {
-                if (e.touches.length === 2) {
-                    initialDistance = Math.hypot(
-                        e.touches[0].pageX - e.touches[1].pageX,
-                        e.touches[0].pageY - e.touches[1].pageY
-                    );
-                }
-            }, { passive: true });
-
-            container.addEventListener('touchmove', (e) => {
+            container.addEventListener('touchstart', e => { if (e.touches.length === 2) initialDistance = Math.hypot(e.touches[0].pageX - e.touches[1].pageX, e.touches[0].pageY - e.touches[1].pageY); }, { passive: true });
+            container.addEventListener('touchmove', e => {
                 if (e.touches.length === 2 && initialDistance > 0) {
-                    const currentDist = Math.hypot(
-                        e.touches[0].pageX - e.touches[1].pageX,
-                        e.touches[0].pageY - e.touches[1].pageY
-                    );
-                    const diff = (currentDist - initialDistance) / 200;
-                    
-                    if (Math.abs(diff) > 0.02) {
-                        adjustZoom(diff);
-                        initialDistance = currentDist;
-                    }
+                    const dist = Math.hypot(e.touches[0].pageX - e.touches[1].pageX, e.touches[0].pageY - e.touches[1].pageY);
+                    const diff = (dist - initialDistance) / 200;
+                    if (Math.abs(diff) > 0.02) { adjustZoom(diff); initialDistance = dist; }
                 }
             }, { passive: true });
-
-            container.addEventListener('touchend', (e) => {
-                if (e.touches.length < 2) {
-                    initialDistance = -1;
-                }
-            });
+            container.addEventListener('touchend', e => { if (e.touches.length < 2) initialDistance = -1; });
         }
 
-        // LOGIKA QUIZU - WPISYWANIE
-        let inAvailableWords = [];
-        let inCurrentWord = {};
-        let inScoreCorrect = 0;
-        let inScoreTotal = 0;
-        let inQuestionNumber = 0;
-        let inCurrentStep = 0;
+        // QUIZ - WPISYWANIE
+        let inAvailableWords = [], inCurrentWord = {}, inScoreCorrect = 0, inScoreTotal = 0, inQuestionNumber = 0, inCurrentStep = 0;
 
-        function initInputQueue() {
-            inAvailableWords = [...originalWords];
-            for (let i = inAvailableWords.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [inAvailableWords[i], inAvailableWords[j]] = [inAvailableWords[j], inAvailableWords[i]];
-            }
-            inQuestionNumber = 0;
-        }
+        function initInputQueue() { inAvailableWords = [...originalWords].sort(() => Math.random() - 0.5); inQuestionNumber = 0; }
 
         function loadNextInputQuestion() {
-            if (inAvailableWords.length === 0) initInputQueue();
-
+            if (!inAvailableWords.length) initInputQueue();
             inQuestionNumber++;
             inCurrentWord = inAvailableWords.pop();
             inCurrentStep = 0;
 
             for (let i = 0; i < 3; i++) {
-                const input = document.getElementById("input-" + i);
-                input.value = "";
-                input.disabled = (i !== 0);
-                input.style.borderColor = "#555";
+                const inp = document.getElementById("input-" + i);
+                inp.value = "";
+                inp.disabled = (i !== 0);
+                inp.style.borderColor = "#555";
             }
 
             document.getElementById("in-feedback").innerHTML = "";
             document.getElementById("in-next-btn").style.display = "none";
             document.getElementById("in-check-btn").style.display = "inline-block";
             document.getElementById("in-val-translation").innerText = inCurrentWord.translation;
-
             document.getElementById("in-counter-text").innerText = `Statystyki: Poprawne ${inScoreCorrect} / Wszystkie ${inScoreTotal}`;
             document.getElementById("in-progress-text").innerText = `Słówko: ${inQuestionNumber} / ${originalWords.length}`;
-            
             document.getElementById("input-0").focus();
         }
 
         function checkField(userInput, correctAnswer) {
             userInput = userInput.trim().toLowerCase();
             correctAnswer = correctAnswer.toLowerCase();
-            if (userInput === correctAnswer) return true;
-            if (correctAnswer.includes("/")) {
-                let parts = correctAnswer.split("/").map(s => s.trim());
-                if (parts.includes(userInput)) return true;
-            }
-            return false;
+            return userInput === correctAnswer || (correctAnswer.includes("/") && correctAnswer.split("/").map(s => s.trim()).includes(userInput));
         }
 
         function handleInputStep() {
@@ -689,28 +382,23 @@
             const userInput = inputField.value.trim();
             const feedbackEl = document.getElementById("in-feedback");
 
-            if (userInput === "") {
-                feedbackEl.innerHTML = "<span class='incorrect'>Musisz coś wpisać!</span>";
-                return;
-            }
+            if (!userInput) { feedbackEl.innerHTML = "<span class='incorrect'>Musisz coś wpisać!</span>"; return; }
 
             inScoreTotal++;
-            let correctAnswers = [inCurrentWord.infinitive, inCurrentWord.pastSimple, inCurrentWord.pastParticiple];
-            let isOk = checkField(userInput, correctAnswers[inCurrentStep]);
+            const answers = [inCurrentWord.infinitive, inCurrentWord.pastSimple, inCurrentWord.pastParticiple];
+            const isOk = checkField(userInput, answers[inCurrentStep]);
 
             inputField.disabled = true;
-
             if (isOk) {
                 inScoreCorrect++;
                 inputField.style.borderColor = "#4CAF50";
                 feedbackEl.innerHTML = "<span class='correct'>Dobrze! 🎉</span>";
             } else {
                 inputField.style.borderColor = "#f44336";
-                feedbackEl.innerHTML = `<span class='incorrect'>Źle. Poprawna forma to: <strong>${correctAnswers[inCurrentStep]}</strong></span>`;
+                feedbackEl.innerHTML = `<span class='incorrect'>Źle. Poprawna forma to: <strong>${answers[inCurrentStep]}</strong></span>`;
             }
 
             document.getElementById("in-counter-text").innerText = `Statystyki: Poprawne ${inScoreCorrect} / Wszystkie ${inScoreTotal}`;
-
             inCurrentStep++;
 
             if (inCurrentStep < 3) {
@@ -720,98 +408,64 @@
             } else {
                 document.getElementById("in-check-btn").style.display = "none";
                 document.getElementById("in-next-btn").style.display = "inline-block";
-                document.getElementById("in-next-btn").focus();
             }
         }
 
-        // Obsługa wciśnięcia Enter / Przejdź na klawiaturze telefonu
-        document.addEventListener("keydown", function(e) {
+        document.addEventListener("keydown", e => {
             if (e.key === "Enter" && document.getElementById('input-quiz-tab').classList.contains('active')) {
                 if (inCurrentStep < 3) {
                     handleInputStep();
-                } else if (document.getElementById("in-next-btn").style.display !== "none") {
+                } else {
                     loadNextInputQuestion();
                 }
             }
         });
 
-        // LOGIKA QUIZU - ABCD
-        let abcdAvailableWords = [];
-        let abcdCurrentWord = {};
-        let abcdScoreCorrect = 0;
-        let abcdScoreTotal = 0;
-        let abcdQuestionNumber = 0;
+        // QUIZ - ABCD
+        let abcdAvailableWords = [], abcdCurrentWord = {}, abcdScoreCorrect = 0, abcdScoreTotal = 0, abcdQuestionNumber = 0;
 
-        function initAbcdQueue() {
-            abcdAvailableWords = [...originalWords];
-            for (let i = abcdAvailableWords.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [abcdAvailableWords[i], abcdAvailableWords[j]] = [abcdAvailableWords[j], abcdAvailableWords[i]];
-            }
-            abcdQuestionNumber = 0;
-        }
-
-        function formatWordString(wordObj) {
-            return `${wordObj.infinitive}, ${wordObj.pastSimple}, ${wordObj.pastParticiple}`;
-        }
+        function initAbcdQueue() { abcdAvailableWords = [...originalWords].sort(() => Math.random() - 0.5); abcdQuestionNumber = 0; }
+        const formatWordString = w => `${w.infinitive}, ${w.pastSimple}, ${w.pastParticiple}`;
 
         function loadNextAbcdQuestion() {
-            if (abcdAvailableWords.length === 0) initAbcdQueue();
-
+            if (!abcdAvailableWords.length) initAbcdQueue();
             abcdQuestionNumber++;
             abcdCurrentWord = abcdAvailableWords.pop();
 
             document.getElementById("abcd-feedback").innerHTML = "";
             document.getElementById("abcd-next-btn").style.display = "none";
             document.getElementById("abcd-val-translation").innerText = abcdCurrentWord.translation;
-
             document.getElementById("abcd-counter-text").innerText = `Statystyki: Poprawne ${abcdScoreCorrect} / Wszystkie ${abcdScoreTotal}`;
             document.getElementById("abcd-progress-text").innerText = `Słówko: ${abcdQuestionNumber} / ${originalWords.length}`;
 
             const correctAnswerStr = formatWordString(abcdCurrentWord);
-
-            let otherWords = originalWords.filter(w => w.infinitive !== abcdCurrentWord.infinitive);
-            for (let i = otherWords.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [otherWords[i], otherWords[j]] = [otherWords[j], otherWords[i]];
-            }
+            let others = originalWords.filter(w => w.infinitive !== abcdCurrentWord.infinitive).sort(() => Math.random() - 0.5);
 
             let options = [
                 { text: correctAnswerStr, isCorrect: true },
-                { text: formatWordString(otherWords[0]), isCorrect: false },
-                { text: formatWordString(otherWords[1]), isCorrect: false }
-            ];
+                { text: formatWordString(others[0]), isCorrect: false },
+                { text: formatWordString(others[1]), isCorrect: false }
+            ].sort(() => Math.random() - 0.5);
 
-            for (let i = options.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [options[i], options[j]] = [options[j], options[i]];
-            }
-
-            const optionsContainer = document.getElementById("abcd-options-container");
-            optionsContainer.innerHTML = "";
-
+            const container = document.getElementById("abcd-options-container");
+            container.innerHTML = "";
             options.forEach(opt => {
                 const btn = document.createElement("button");
                 btn.className = "option-btn";
                 btn.innerText = opt.text;
                 btn.onclick = () => handleAbcdAnswer(btn, opt.isCorrect, correctAnswerStr);
-                optionsContainer.appendChild(btn);
+                container.appendChild(btn);
             });
         }
 
         function handleAbcdAnswer(selectedBtn, isCorrect, correctAnswerStr) {
             abcdScoreTotal++;
-            
-            const buttons = document.querySelectorAll(".option-btn");
-            buttons.forEach(btn => {
+            document.querySelectorAll(".option-btn").forEach(btn => {
                 btn.disabled = true;
-                if (btn.innerText === correctAnswerStr) {
-                    btn.classList.add("correct-ans");
-                }
+                if (btn.innerText === correctAnswerStr) btn.classList.add("correct-ans");
             });
 
             const feedbackEl = document.getElementById("abcd-feedback");
-
             if (isCorrect) {
                 abcdScoreCorrect++;
                 feedbackEl.innerHTML = "<span class='correct'>Dobrze! 🎉</span>";
@@ -825,7 +479,6 @@
             document.getElementById("abcd-next-btn").focus();
         }
 
-        // INICJALIZACJA STARTOWA Z ODCZYTEM ZAKŁADKI I ZOOMU
         window.onload = function() {
             buildTable();
             updateZoomDisplay();
@@ -836,9 +489,7 @@
             initAbcdQueue();
             loadNextAbcdQuestion();
 
-            // Przywracanie ostatnio wybranej zakładki (lub domyślnie tabeli)
-            const savedTab = localStorage.getItem('activeTab') || 'table-tab';
-            switchTab(savedTab);
+            switchTab(localStorage.getItem('activeTab') || 'table-tab');
         };
     </script>
 </body>
