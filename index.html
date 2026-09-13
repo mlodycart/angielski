@@ -18,11 +18,26 @@
         .tab-content { display: none; width: 100%; max-width: 1250px; padding: 30px 20px; }
         .tab-content.active { display: block; }
         
-        .table-header-bar { display: flex; justify-content: space-between; align-items: center; gap: 15px; margin-bottom: 20px; background-color: #1a1a1a; padding: 14px 20px; border-radius: 12px; border: 1px solid #333; flex-wrap: wrap; }
+        /* PRZYKLEJONY PASEK WYSZUKIWANIA (POSITION: STICKY) */
+        .table-header-bar { 
+            position: sticky; 
+            top: 15px; 
+            z-index: 100; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            gap: 15px; 
+            margin-bottom: 20px; 
+            background-color: #1a1a1a; 
+            padding: 14px 20px; 
+            border-radius: 12px; 
+            border: 1px solid #333; 
+            flex-wrap: wrap; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+        }
         
         .zoom-controls { display: flex; align-items: center; gap: 12px; }
         .zoom-controls span { font-size: 20px; color: #aaa; font-weight: 700; }
-        /* ZMIANA TŁA PRZYCISKÓW ROZMIARU NA #262626 */
         .zoom-btn { background-color: #262626; color: white; border: 2px solid #444; padding: 12px 20px; font-size: 20px; font-weight: 700; border-radius: 10px; cursor: pointer; touch-action: manipulation; line-height: 1; display: inline-flex; align-items: center; justify-content: center; transition: background-color 0.2s, border-color 0.2s; }
         .zoom-btn:hover { border-color: #4CAF50; background-color: #333333; }
         .zoom-btn:active { background-color: #4CAF50; }
@@ -75,7 +90,7 @@
         @media (max-width: 768px) {
             nav { flex-direction: column; padding: 12px 15px; gap: 8px; }
             .nav-btn { width: 100%; font-size: 16px; padding: 12px 16px; }
-            .table-header-bar { flex-direction: column; align-items: stretch; }
+            .table-header-bar { flex-direction: column; align-items: stretch; top: 10px; }
             .search-box { max-width: 100%; }
             .tab-content { padding: 15px 10px; }
             .quiz-container { padding: 25px 15px; border-radius: 14px; }
