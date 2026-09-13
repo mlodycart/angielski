@@ -771,7 +771,7 @@
             window.inWrongWordsCache = retryWords;
 
             let retryBtnHtml = retryWords.length > 0 
-                ? `<button class="btn-action btn-retry-wrong" onclick="retryInputWrongWords()">Powtórz błędne i pominięte (${retryWords.length})</button>`
+                ? `<button class="btn-action btn-retry-wrong" onclick="retryInputWrongWords()">Powtórz błędne (${retryWords.length})</button>`
                 : '';
 
             box.innerHTML = `
@@ -1035,7 +1035,7 @@
             window.abcdWrongWordsCache = retryWords;
 
             let retryBtnHtml = retryWords.length > 0 
-                ? `<button class="btn-action btn-retry-wrong" onclick="retryAbcdWrongWords()">Powtórz błędne i pominięte (${retryWords.length})</button>`
+                ? `<button class="btn-action btn-retry-wrong" onclick="retryAbcdWrongWords()">Powtórz błędne (${retryWords.length})</button>`
                 : '';
 
             box.innerHTML = `
