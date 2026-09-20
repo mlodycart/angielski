@@ -341,18 +341,18 @@
                     <path d="M3 3v5h5"></path>
                 </svg>
             </a>
-            <h1>Quiz: Wpisz Tłumaczenie</h1>
+            <h1>Quiz: Wpisz Angielskie Słówko</h1>
             <div class="counter" id="in-counter-text"></div>
             <div class="counter" id="in-progress-text" style="color: #4CAF50; margin-top: -8px; margin-bottom: 20px; font-weight: 700;"></div>
             
             <div class="translation-box">
-                <div class="translation-label">Angielskie słówko</div>
+                <div class="translation-label">Polskie tłumaczenie</div>
                 <div class="translation-value" id="in-val-word">-</div>
             </div>
 
             <div class="input-single-group">
-                <div class="input-label">Tłumaczenie po polsku</div>
-                <input type="text" id="input-translation" placeholder="Wpisz tłumaczenie..." autocomplete="off" autocapitalize="none">
+                <div class="input-label">Angielskie słówko</div>
+                <input type="text" id="input-translation" placeholder="Wpisz po angielsku..." autocomplete="off" autocapitalize="none">
             </div>
 
             <div class="action-buttons-wrapper">
@@ -374,12 +374,12 @@
                     <path d="M3 3v5h5"></path>
                 </svg>
             </a>
-            <h1>Quiz: Wybierz Tłumaczenie</h1>
+            <h1>Quiz: Wybierz Angielskie Słówko</h1>
             <div class="counter" id="abcd-counter-text"></div>
             <div class="counter" id="abcd-progress-text" style="color: #4CAF50; margin-top: -8px; margin-bottom: 20px; font-weight: 700;"></div>
             
             <div class="translation-box">
-                <div class="translation-label">Angielskie słówko</div>
+                <div class="translation-label">Polskie tłumaczenie</div>
                 <div class="translation-value" id="abcd-val-word">-</div>
             </div>
 
@@ -577,7 +577,7 @@
             document.getElementById("in-check-btn").style.display = "inline-block";
             document.getElementById("in-skip-btn").style.display = "inline-block";
             document.getElementById("in-end-btn").style.display = "inline-block";
-            document.getElementById("in-val-word").innerText = inCurrentWord.word;
+            document.getElementById("in-val-word").innerText = inCurrentWord.translation;
             document.getElementById("in-counter-text").innerText = `Statystyki: Poprawne ${inScoreCorrect} / Wszystkie ${inScoreTotal}`;
             document.getElementById("in-progress-text").innerText = `Słówko: ${inQuestionNumber} / ${inTotalPool.length} | Pominięto: ${inSkippedCount} / ${inTotalPool.length}`;
             inp.focus();
@@ -591,7 +591,6 @@
 
         function handleInputStep() {
             const nextBtn = document.getElementById("in-next-btn");
-            // Jeśli odpowiedź została już sprawdzona (przycisk 'Następne' jest widoczny), przejdź dalej
             if (nextBtn.style.display !== "none") {
                 loadNextInputQuestion();
                 return;
@@ -604,7 +603,7 @@
             if (!userInput) { feedbackEl.innerHTML = "<span class='incorrect'>Musisz coś wpisać!</span>"; return; }
 
             inScoreTotal++;
-            const isOk = checkField(userInput, inCurrentWord.translation);
+            const isOk = checkField(userInput, inCurrentWord.word);
 
             inputField.disabled = true;
             if (isOk) {
@@ -613,7 +612,7 @@
                 feedbackEl.innerHTML = "<span class='correct'>Dobrze! 🎉</span>";
             } else {
                 inputField.style.borderColor = "#f44336";
-                feedbackEl.innerHTML = `<span class='incorrect'>Źle. Poprawne tłumaczenie to: <strong>${inCurrentWord.translation}</strong></span>`;
+                feedbackEl.innerHTML = `<span class='incorrect'>Źle. Poprawne angielskie słówko to: <strong>${inCurrentWord.word}</strong></span>`;
             }
 
             inHistory.push({
@@ -641,11 +640,11 @@
             });
 
             const inp = document.getElementById("input-translation");
-            inp.value = inCurrentWord.translation;
+            inp.value = inCurrentWord.word;
             inp.disabled = true;
             inp.style.borderColor = "#888";
 
-            document.getElementById("in-feedback").innerHTML = `<span class='skipped-text'>Pominięto słówko. Poprawne tłumaczenie zostało uzupełnione.</span>`;
+            document.getElementById("in-feedback").innerHTML = `<span class='skipped-text'>Pominięto słówko. Poprawne angielskie słówko zostało uzupełnione.</span>`;
             document.getElementById("in-check-btn").style.display = "none";
             document.getElementById("in-skip-btn").style.display = "none";
             document.getElementById("in-end-btn").style.display = "none";
@@ -669,11 +668,11 @@
                             <div class="summary-item-content">
                                 <div>
                                     <span class="summary-num">${idx + 1}.</span>
-                                    <span class="summary-word">${w.word}</span>
+                                    <span class="summary-word">${w.translation}</span>
                                     <strong style="color: #888; margin-left: 10px;">[Pominięto]</strong>
                                 </div>
                                 <div class="summary-details">
-                                    <span class="text-skipped">${w.translation}</span>
+                                    <span class="text-skipped">${w.word}</span>
                                 </div>
                             </div>
                             <div class="summary-score-badge">0/1</div>
@@ -684,14 +683,14 @@
                 const statusClass = item.isCorrect ? 'perfect' : 'failed';
                 let detailsHtml = item.isCorrect 
                     ? `<span class="text-correct">${item.userAnswer}</span>`
-                    : `<span class="text-wrong">${item.userAnswer}</span> → <span class="text-correct">${w.translation}</span>`;
+                    : `<span class="text-wrong">${item.userAnswer}</span> → <span class="text-correct">${w.word}</span>`;
 
                 return `
                     <div class="summary-item ${statusClass}">
                         <div class="summary-item-content">
                             <div>
                                 <span class="summary-num">${idx + 1}.</span>
-                                <span class="summary-word">${w.word}</span>
+                                <span class="summary-word">${w.translation}</span>
                             </div>
                             <div class="summary-details">${detailsHtml}</div>
                         </div>
@@ -755,18 +754,18 @@
                             <path d="M3 3v5h5"></path>
                         </svg>
                     </a>
-                    <h1>Quiz: Wpisz Tłumaczenie</h1>
+                    <h1>Quiz: Wpisz Angielskie Słówko</h1>
                     <div class="counter" id="in-counter-text"></div>
                     <div class="counter" id="in-progress-text" style="color: #4CAF50; margin-top: -8px; margin-bottom: 20px; font-weight: 700;"></div>
                     
                     <div class="translation-box">
-                        <div class="translation-label">Angielskie słówko</div>
+                        <div class="translation-label">Polskie tłumaczenie</div>
                         <div class="translation-value" id="in-val-word">-</div>
                     </div>
 
                     <div class="input-single-group">
-                        <div class="input-label">Tłumaczenie po polsku</div>
-                        <input type="text" id="input-translation" placeholder="Wpisz tłumaczenie..." autocomplete="off" autocapitalize="none">
+                        <div class="input-label">Angielskie słówko</div>
+                        <input type="text" id="input-translation" placeholder="Wpisz po angielsku..." autocomplete="off" autocapitalize="none">
                     </div>
 
                     <div class="action-buttons-wrapper">
@@ -787,7 +786,7 @@
 
         document.addEventListener("keydown", e => {
             if (e.key === "Enter" && document.getElementById('input-quiz-tab').classList.contains('active')) {
-                e.preventDefault(); // zapobiega niespodziewanemu przesyłaniu formularzy
+                e.preventDefault();
                 handleInputStep();
             }
         });
@@ -820,17 +819,17 @@
             document.getElementById("abcd-next-btn").style.display = "none";
             document.getElementById("abcd-skip-btn").style.display = "inline-block";
             document.getElementById("abcd-end-btn").style.display = "inline-block";
-            document.getElementById("abcd-val-word").innerText = abcdCurrentWord.word;
+            document.getElementById("abcd-val-word").innerText = abcdCurrentWord.translation;
             document.getElementById("abcd-counter-text").innerText = `Statystyki: Poprawne ${abcdScoreCorrect} / Wszystkie ${abcdScoreTotal}`;
             document.getElementById("abcd-progress-text").innerText = `Słówko: ${abcdQuestionNumber} / ${abcdTotalPool.length} | Pominięto: ${abcdSkippedCount} / ${abcdTotalPool.length}`;
 
-            const correctAnswerStr = abcdCurrentWord.translation;
+            const correctAnswerStr = abcdCurrentWord.word;
             let others = originalWords.filter(w => w.word !== abcdCurrentWord.word).sort(() => Math.random() - 0.5);
 
             let options = [
                 { text: correctAnswerStr, isCorrect: true },
-                { text: others[0].translation, isCorrect: false },
-                { text: others[1].translation, isCorrect: false }
+                { text: others[0].word, isCorrect: false },
+                { text: others[1].word, isCorrect: false }
             ].sort(() => Math.random() - 0.5);
 
             const container = document.getElementById("abcd-options-container");
@@ -865,7 +864,7 @@
                 feedbackEl.innerHTML = "<span class='correct'>Dobrze! 🎉</span>";
             } else {
                 selectedBtn.classList.add("wrong-ans");
-                feedbackEl.innerHTML = `<span class='incorrect'>Źle. Poprawna odpowiedź to: <strong>${correctAnswerStr}</strong></span>`;
+                feedbackEl.innerHTML = `<span class='incorrect'>Źle. Poprawne angielskie słówko to: <strong>${correctAnswerStr}</strong></span>`;
             }
 
             document.getElementById("abcd-counter-text").innerText = `Statystyki: Poprawne ${abcdScoreCorrect} / Wszystkie ${abcdScoreTotal}`;
@@ -877,7 +876,7 @@
 
         function skipAbcdQuestion() {
             abcdSkippedCount++;
-            const correctAnswerStr = abcdCurrentWord.translation;
+            const correctAnswerStr = abcdCurrentWord.word;
 
             document.querySelectorAll(".option-btn").forEach(btn => {
                 btn.disabled = true;
@@ -915,11 +914,11 @@
                             <div class="summary-item-content">
                                 <div>
                                     <span class="summary-num">${idx + 1}.</span>
-                                    <span class="summary-word">${w.word}</span>
+                                    <span class="summary-word">${w.translation}</span>
                                     <strong style="color: #888; margin-left: 10px;">[Pominięto]</strong>
                                 </div>
                                 <div class="summary-details">
-                                    <span class="text-skipped">${w.translation}</span>
+                                    <span class="text-skipped">${w.word}</span>
                                 </div>
                             </div>
                             <div class="summary-score-badge">0/1</div>
@@ -937,7 +936,7 @@
                         <div class="summary-item-content">
                             <div>
                                 <span class="summary-num">${idx + 1}.</span>
-                                <span class="summary-word">${w.word}</span>
+                                <span class="summary-word">${w.translation}</span>
                             </div>
                             <div class="summary-details">${detailsHtml}</div>
                         </div>
@@ -1001,12 +1000,12 @@
                             <path d="M3 3v5h5"></path>
                         </svg>
                     </a>
-                    <h1>Quiz: Wybierz Tłumaczenie</h1>
+                    <h1>Quiz: Wybierz Angielskie Słówko</h1>
                     <div class="counter" id="abcd-counter-text"></div>
                     <div class="counter" id="abcd-progress-text" style="color: #4CAF50; margin-top: -8px; margin-bottom: 20px; font-weight: 700;"></div>
                     
                     <div class="translation-box">
-                        <div class="translation-label">Angielskie słówko</div>
+                        <div class="translation-label">Polskie tłumaczenie</div>
                         <div class="translation-value" id="abcd-val-word">-</div>
                     </div>
 
