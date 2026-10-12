@@ -3,8 +3,7 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Angielski - Quiz Wpisywanie</title>
+    <title>Angielski - Quiz: Wpisywanie</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
@@ -87,7 +86,7 @@
                     <path d="M3 3v5h5"></path>
                 </svg>
             </a>
-            <h1>Quiz: Odpowiedz na Pytanie</h1>
+            <h1>Quiz: Wpisz po angielsku</h1>
             
             <div class="stats-grid">
                 <div class="stat-card" id="in-last-card">
@@ -108,8 +107,8 @@
             </div>
 
             <div class="input-group">
-                <div class="input-label">Wpisz...</div>
-                <input type="text" id="input-answer" placeholder="Opowiedż..." autocomplete="off">
+                <div class="input-label">Wpisz słówko po angielsku...</div>
+                <input type="text" id="input-answer" placeholder="Wpisz..." autocomplete="off">
             </div>
 
             <div class="action-buttons-wrapper">
@@ -125,40 +124,42 @@
 
     <script src="historyData.js"></script>
     <script>
-        function evaluateAnswer(userStr, item) {
-            const allKeywords = [
-                ...(item.descKeywords || []),
-                ...(item.titleKeywords || []),
-                ...item.desc.split(/[,;]/).map(s => s.trim())
-            ].filter((v, i, a) => v && a.indexOf(v) === i);
+        function evaluateAnswer(userStr, targetEnglish) {
+            const cleanUser = userStr.toLowerCase().trim().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "");
+            const cleanTarget = targetEnglish.toLowerCase().trim().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "");
 
-            if (!userStr.trim() || allKeywords.length === 0) {
-                return { percentage: 0, matched: [], missing: allKeywords };
+            if (!cleanUser) {
+                return { percentage: 0, matched: [], missing: [targetEnglish] };
             }
             
-            const cleanUser = userStr.toLowerCase().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "");
+            // Dokładne dopasowanie angielskiego słówka/frazy
+            if (cleanUser === cleanTarget) {
+                return { percentage: 100, matched: [targetEnglish], missing: [] };
+            }
+
             const userWords = cleanUser.split(/\s+/).filter(w => w.length > 0);
-            
-            let matchedKeywords = [];
-            let missingKeywords = [];
+            const targetWords = cleanTarget.split(/\s+/).filter(w => w.length > 0);
 
-            allKeywords.forEach(kw => {
-                const kwClean = kw.toLowerCase().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "");
-                let isMatch = cleanUser.includes(kwClean);
-                
-                if (!isMatch) {
-                    const kwWords = kwClean.split(/\s+/).filter(w => w.length > 2);
-                    if (kwWords.length > 0) {
-                        isMatch = kwWords.some(kwW => userWords.some(uW => uW.includes(kwW) || kwW.includes(uW)));
-                    }
+            // Dla pojedynczego słowa wymagamy idealnej zgodności
+            if (targetWords.length === 1) {
+                return { percentage: 0, matched: [], missing: [targetEnglish] };
+            }
+
+            // Dla wielowyrazowych fraz sprawdzamy dopasowane słowa
+            let matchedCount = 0;
+            targetWords.forEach(tw => {
+                if (userWords.includes(tw)) {
+                    matchedCount++;
                 }
-
-                if (isMatch) matchedKeywords.push(kw);
-                else missingKeywords.push(kw);
             });
 
-            const percentage = Math.min(100, Math.round((matchedKeywords.length / allKeywords.length) * 100));
-            return { percentage, matched: matchedKeywords, missing: missingKeywords };
+            let percentage = Math.round((matchedCount / targetWords.length) * 100);
+
+            if (percentage < 30) {
+                return { percentage: 0, matched: [], missing: [targetEnglish] };
+            }
+
+            return { percentage, matched: [targetEnglish], missing: [] };
         }
 
         function getScoreColor(percent) {
@@ -209,7 +210,9 @@
             document.getElementById("in-next-btn").style.display = "none";
             document.getElementById("in-skip-btn").style.display = "inline-block";
             document.getElementById("in-end-btn").style.display = "inline-block";
-            document.getElementById("in-val-translation").innerText = inCurrentWord.title;
+            
+            // Pokazujemy POLSKI opis, oczekujemy ANGIELSKIEGO słowa
+            document.getElementById("in-val-translation").innerText = inCurrentWord.desc;
             document.getElementById("in-progress-text").innerText = `Pytanie: ${inQuestionNumber} / ${inTotalPool.length} | Pominięto: ${inSkippedCount}`;
             
             updateInputStats();
@@ -222,10 +225,10 @@
             const val = inp.value.trim();
             const feedbackEl = document.getElementById("in-feedback");
 
-            if (!val) { feedbackEl.innerHTML = "<span class='incorrect'>Wpisz cokolwiek, aby sprawdzić!</span>"; return; }
+            if (!val) { feedbackEl.innerHTML = "<span class='incorrect'>Wpisz angielskie słówko, aby sprawdzić!</span>"; return; }
 
             inIsAnswerChecked = true;
-            const evalRes = evaluateAnswer(val, inCurrentWord);
+            const evalRes = evaluateAnswer(val, inCurrentWord.title);
             inScoreTotal += evalRes.percentage;
 
             inp.disabled = true;
@@ -238,14 +241,13 @@
                 statusText = `<span class='partial-correct'>Dobrze, ale brakuje szczegółów! Dopasowanie: ${evalRes.percentage}% ⚠</span>`;
             } else {
                 inp.style.borderColor = "#f44336";
-                statusText = `<span class='incorrect'>Zbyt mało informacji! Dopasowanie: ${evalRes.percentage}% ❌</span>`;
+                statusText = `<span class='incorrect'>Źle! Dopasowanie: ${evalRes.percentage}% ❌</span>`;
             }
 
             feedbackEl.innerHTML = `
                 ${statusText}<br>
                 <div style="font-size: 18px; margin-top: 10px; color: #ccc;">
-                    <strong>Wzorcowa odpowiedź:</strong> ${inCurrentWord.desc}<br>
-                    <small style="color: #4CAF50;">Trafione pojęcia: ${evalRes.matched.join(", ") || "brak"}</small>
+                    <strong>Wzorcowa odpowiedź:</strong> ${inCurrentWord.title}<br>
                 </div>
             `;
 
@@ -268,7 +270,7 @@
 
             document.getElementById("in-feedback").innerHTML = `
                 <span class='skipped-text'>Pominięto. Poprawna odpowiedź:</span><br>
-                <div style="font-size: 18px; margin-top: 5px; color: #ffd700;">${inCurrentWord.desc}</div>
+                <div style="font-size: 18px; margin-top: 5px; color: #ffd700;">${inCurrentWord.title}</div>
             `;
 
             inHistory.push({ item: inCurrentWord, userAnswer: "(Pominięto)", eval: { percentage: 0, matched: [], missing: [] }, skipped: true });
@@ -290,8 +292,8 @@
                     return `
                         <div class="summary-item skipped">
                             <div class="summary-item-content">
-                                <div><span class="summary-num">${idx + 1}.</span><span class="summary-word">${h.item.title}</span></div>
-                                <div class="summary-details"><span class="text-skipped">${h.item.desc}</span></div>
+                                <div><span class="summary-num">${idx + 1}.</span><span class="summary-word">${h.item.desc}</span></div>
+                                <div class="summary-details"><span class="text-skipped">${h.item.title}</span></div>
                             </div>
                             <div class="summary-score-badge">0%</div>
                         </div>
@@ -301,8 +303,8 @@
                 return `
                     <div class="summary-item ${statusClass}">
                         <div class="summary-item-content">
-                            <div><span class="summary-num">${idx + 1}.</span><span class="summary-word">${h.item.title}</span></div>
-                            <div class="summary-details">Twoja odpowiedź: <em>${h.userAnswer}</em><br>Wzorzec: <span class="text-correct">${h.item.desc}</span></div>
+                            <div><span class="summary-num">${idx + 1}.</span><span class="summary-word">${h.item.desc}</span></div>
+                            <div class="summary-details">Twoja odpowiedź: <em>${h.userAnswer}</em><br>Wzorzec: <span class="text-correct">${h.item.title}</span></div>
                         </div>
                         <div class="summary-score-badge">${h.eval.percentage}%</div>
                     </div>
@@ -338,7 +340,7 @@
 
         function retryInputWrongWords() {
             if (!window.inWrongWordsCache || !window.inWrongWordsCache.length) return;
-            location.reload(); // Prosty restart lub wywołanie od nowa z cache
+            location.reload();
         }
 
         function restartInputQuiz() { location.reload(); }
