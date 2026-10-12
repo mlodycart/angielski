@@ -3,8 +3,7 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Angielski - Quiz ABCD</title>
+    <title>Angielski - Quiz ABCD (Angielskie Słówka)</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
@@ -81,12 +80,12 @@
                     <path d="M3 3v5h5"></path>
                 </svg>
             </a>
-            <h1>Quiz: Wybierz Poprawną Odpowiedź</h1>
+            <h1>Quiz: Wybierz Angielskie Słówko</h1>
             <div class="counter" id="abcd-counter-text"></div>
             <div class="counter" id="abcd-progress-text" style="color: #4CAF50; margin-top: -8px; margin-bottom: 20px; font-weight: 700;"></div>
             
             <div class="translation-box">
-                <div class="translation-label">Słówko</div>
+                <div class="translation-label">Tłumaczenie (PL)</div>
                 <div class="translation-value" id="abcd-val-translation">-</div>
             </div>
 
@@ -123,15 +122,19 @@
             document.getElementById("abcd-next-btn").style.display = "none";
             document.getElementById("abcd-skip-btn").style.display = "inline-block";
             document.getElementById("abcd-end-btn").style.display = "inline-block";
-            document.getElementById("abcd-val-translation").innerText = abcdCurrentWord.title;
+            
+            // Wyświetlamy polskie tłumaczenie na górze
+            document.getElementById("abcd-val-translation").innerText = abcdCurrentWord.desc;
             document.getElementById("abcd-counter-text").innerText = `Poprawne: ${abcdScoreCorrect} / ${abcdHistory.length}`;
             document.getElementById("abcd-progress-text").innerText = `Pytanie: ${abcdQuestionNumber} / ${abcdTotalPool.length} | Pominięto: ${abcdSkippedCount}`;
 
             let others = historyData.filter(w => w.id !== abcdCurrentWord.id).sort(() => Math.random() - 0.5);
+            
+            // Opcje w przyciskach to angielskie słówka (title)
             let options = [
-                { text: abcdCurrentWord.desc, isCorrect: true },
-                { text: others[0].desc, isCorrect: false },
-                { text: others[1].desc, isCorrect: false }
+                { text: abcdCurrentWord.title, isCorrect: true },
+                { text: others[0].title, isCorrect: false },
+                { text: others[1].title, isCorrect: false }
             ].sort(() => Math.random() - 0.5);
 
             const container = document.getElementById("abcd-options-container");
@@ -140,7 +143,7 @@
                 const btn = document.createElement("button");
                 btn.className = "option-btn";
                 btn.innerText = opt.text;
-                btn.onclick = () => handleAbcdAnswer(btn, opt.isCorrect, abcdCurrentWord.desc);
+                btn.onclick = () => handleAbcdAnswer(btn, opt.isCorrect, abcdCurrentWord.title);
                 container.appendChild(btn);
             });
         }
@@ -170,7 +173,7 @@
 
         function skipAbcdQuestion() {
             abcdSkippedCount++;
-            const correctAnswerStr = abcdCurrentWord.desc;
+            const correctAnswerStr = abcdCurrentWord.title;
 
             document.querySelectorAll(".option-btn").forEach(btn => {
                 btn.disabled = true;
@@ -195,7 +198,7 @@
                     return `
                         <div class="summary-item skipped">
                             <div class="summary-item-content">
-                                <div><span class="summary-num">${idx + 1}.</span><span class="summary-word">${h.item.title}</span></div>
+                                <div><span class="summary-num">${idx + 1}.</span><span class="summary-word">${h.item.desc}</span></div>
                                 <div class="summary-details"><span class="text-skipped">${h.correctAnswer}</span></div>
                             </div>
                             <div class="summary-score-badge">0/1</div>
@@ -210,7 +213,7 @@
                 return `
                     <div class="summary-item ${statusClass}">
                         <div class="summary-item-content">
-                            <div><span class="summary-num">${idx + 1}.</span><span class="summary-word">${h.item.title}</span></div>
+                            <div><span class="summary-num">${idx + 1}.</span><span class="summary-word">${h.item.desc}</span></div>
                             <div class="summary-details">${detailsHtml}</div>
                         </div>
                         <div class="summary-score-badge">${h.isCorrect ? '1/1' : '0/1'}</div>
@@ -255,3 +258,4 @@
     </script>
 </body>
 </html>
+```[cite: 2, 5]
