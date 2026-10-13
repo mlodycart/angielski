@@ -197,146 +197,111 @@ const historyData = [
     },
     { 
         id: "29", 
-        title: "advance", 
-        titleKeywords: ["advance"],
-        desc: "iść do przodu", 
-        descKeywords: ["iść do przodu"]
-    },
-    { 
-        id: "30", 
-        title: "attempt", 
-        titleKeywords: ["attempt"],
-        desc: "próbować, usiłować", 
-        descKeywords: ["próbować, usiłować"]
-    },
-    { 
-        id: "31", 
-        title: "decent", 
-        titleKeywords: ["decent"],
-        desc: "porządny, sympatyczny", 
-        descKeywords: ["porządny, sympatyczny"]
-    },
-    { 
-        id: "32", 
-        title: "fortune-teller", 
-        titleKeywords: ["fortune-teller"],
-        desc: "wróżka", 
-        descKeywords: ["wróżka"]
-    },
-    { 
-        id: "33", 
-        title: "STEM", 
-        titleKeywords: ["STEM"],
-        desc: "STEM (nauka, technologia, inżynieria i matematyka)", 
-        descKeywords: ["STEM (nauka, technologia, inżynieria i matematyka)"]
-    },
-    { 
-        id: "34", 
         title: "affordable", 
         titleKeywords: ["affordable"],
         desc: "przystępny cenowo", 
         descKeywords: ["przystępny cenowo"]
     },
     { 
-        id: "35", 
+        id: "30", 
         title: "artificial", 
         titleKeywords: ["artificial"],
         desc: "sztuczny", 
         descKeywords: ["sztuczny"]
     },
     { 
-        id: "36", 
+        id: "31", 
         title: "cancer", 
         titleKeywords: ["cancer"],
         desc: "rak, nowotwór złośliwy", 
         descKeywords: ["rak, nowotwór złośliwy"]
     },
     { 
-        id: "37", 
+        id: "32", 
         title: "enhance", 
         titleKeywords: ["enhance"],
         desc: "zwiększyć, wzmocnić, poprawić", 
         descKeywords: ["zwiększyć, wzmocnić, poprawić"]
     },
     { 
-        id: "38", 
+        id: "33", 
         title: "facial muscles", 
         titleKeywords: ["facial muscles"],
         desc: "mięśnie twarzy", 
         descKeywords: ["mięśnie twarzy"]
     },
     { 
-        id: "39", 
+        id: "34", 
         title: "headset", 
         titleKeywords: ["headset"],
         desc: "zestaw słuchawkowy", 
         descKeywords: ["zestaw słuchawkowy"]
     },
     { 
-        id: "40", 
+        id: "35", 
         title: "in (general) use", 
         titleKeywords: ["in (general) use"],
         desc: "w (powszechnym) użyciu", 
         descKeywords: ["w (powszechnym) użyciu"]
     },
     { 
-        id: "41", 
+        id: "36", 
         title: "link up", 
         titleKeywords: ["link up"],
         desc: "łączyć, podłączać", 
         descKeywords: ["łączyć, podłączać"]
     },
     { 
-        id: "42", 
+        id: "37", 
         title: "make strides", 
         titleKeywords: ["make strides"],
         desc: "robić postępy", 
         descKeywords: ["robić postępy"]
     },
     { 
-        id: "43", 
+        id: "38", 
         title: "merge", 
         titleKeywords: ["merge"],
         desc: "połączyć", 
         descKeywords: ["połączyć"]
     },
     { 
-        id: "44", 
+        id: "39", 
         title: "mind reading", 
         titleKeywords: ["mind reading"],
         desc: "czytanie w myślach", 
         descKeywords: ["czytanie w myślach"]
     },
     { 
-        id: "45", 
+        id: "40", 
         title: "mouth", 
         titleKeywords: ["mouth"],
         desc: "powiedzieć bezgłośnie", 
         descKeywords: ["powiedzieć bezgłośnie"]
     },
     { 
-        id: "46", 
+        id: "41", 
         title: "pick up", 
         titleKeywords: ["pick up"],
         desc: "odebrać (sygnał)", 
         descKeywords: ["odebrać (sygnał)"]
     },
     { 
-        id: "47", 
+        id: "42", 
         title: "purchase", 
         titleKeywords: ["purchase"],
         desc: "zakup", 
         descKeywords: ["zakup"]
     },
     { 
-        id: "48", 
+        id: "43", 
         title: "telepathy", 
         titleKeywords: ["telepathy"],
         desc: "telepatia", 
         descKeywords: ["telepatia"]
     },
     { 
-        id: "49", 
+        id: "44", 
         title: "wearable", 
         titleKeywords: ["wearable"],
         desc: "nadający się do noszenia", 
