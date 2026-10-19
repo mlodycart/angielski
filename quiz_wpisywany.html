@@ -3,90 +3,133 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="UTF-8">
-    <title>Angielski - Quiz: Wpisywanie</title>
+    <title>Angielski - Quiz: Wpisz angielskie słówko</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        * { box-sizing: border-box; }
-        body { background-color: #121212; color: #fff; font-family: 'Space Grotesk', sans-serif; font-weight: 500; margin: 0; padding: 0; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background-color: #0b0d0f; color: #fff; font-family: 'Space Grotesk', sans-serif; font-weight: 500; display: flex; flex-direction: column; align-items: center; min-height: 100vh; position: relative; overflow-x: hidden; max-width: 100vw; }
         
-        .back-nav { width: 100%; max-width: 1200px; padding: 20px 20px 0 20px; display: flex; justify-content: flex-start; }
-        .back-btn { background-color: #2a2a2a; color: #ffd700; border: 2px solid #444; padding: 10px 20px; font-family: inherit; font-size: 16px; font-weight: 700; border-radius: 8px; cursor: pointer; text-decoration: none; transition: background-color 0.2s; }
-        .back-btn:hover { background-color: #3d3d3d; }
+        body::before {
+            content: ""; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background-image: linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 40px 40px; pointer-events: none; z-index: 0;
+        }
+        .glow {
+            position: absolute; top: 25%; left: 50%; transform: translate(-50%, -50%); width: 100%; max-width: 600px; height: 300px;
+            background: radial-gradient(circle, rgba(0, 229, 255, 0.08) 0%, rgba(76, 175, 80, 0.05) 50%, transparent 80%);
+            filter: blur(80px); pointer-events: none; z-index: 0;
+        }
 
-        .tab-content { display: block; width: 100%; max-width: 1200px; padding: 20px 20px 80px 20px; }
-        .quiz-container { background-color: #2d2d2d; padding: 40px 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.7); text-align: center; max-width: 1200px; margin: 10px auto; position: relative; }
-        
-        .quiz-reset-btn { position: absolute; top: 20px; right: 20px; width: 52px; height: 52px; display: flex; align-items: center; justify-content: center; background: #262626; border: 2px solid #555; border-radius: 12px; color: #fff; cursor: pointer; text-decoration: none; transition: all 0.2s; }
-        .quiz-reset-btn:hover { background-color: #333; border-color: #ffd700; color: #ffd700; }
+        header { position: relative; z-index: 10; width: 100%; display: flex; justify-content: center; padding: 20px 15px; }
+        .nav-capsule {
+            background: rgba(18, 22, 26, 0.75); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 10px 20px; border-radius: 999px; display: flex; align-items: center; justify-content: space-between; width: 100%; max-width: 950px;
+        }
+        .brand { display: flex; align-items: center; gap: 10px; font-size: 18px; font-weight: 700; color: #fff; text-decoration: none; }
+        .brand-icon { width: 10px; height: 10px; background: #00e5ff; border-radius: 50%; box-shadow: 0 0 10px #00e5ff; }
+        .nav-links { display: flex; gap: 18px; list-style: none; }
+        .nav-links a { color: #9aa0a6; text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.2s; }
+        .nav-links a:hover, .nav-links a.active { color: #00e5ff; }
+        .nav-btn {
+            background: rgba(0, 229, 255, 0.1); color: #00e5ff; border: 1px solid rgba(0, 229, 255, 0.3);
+            padding: 6px 16px; border-radius: 999px; font-size: 13px; font-weight: 600; text-decoration: none; transition: all 0.2s;
+        }
+        .nav-btn:hover { background: #00e5ff; color: #0b0d0f; box-shadow: 0 0 15px rgba(0, 229, 255, 0.4); }
 
-        h1 { color: #4CAF50; margin-top: 0; font-size: 38px; font-weight: 700; margin-bottom: 15px; }
+        .tab-content { position: relative; z-index: 10; display: block; width: 100%; max-width: 900px; padding: 10px 15px 60px 15px; }
+        .quiz-container { background: rgba(18, 22, 26, 0.8); border: 1px solid rgba(255, 255, 255, 0.08); padding: 30px 20px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.7); text-align: center; margin: 10px auto; position: relative; backdrop-filter: blur(12px); }
         
-        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
-        .stat-card { background-color: #1e1e1e; border: 2px solid #e53935; border-radius: 12px; padding: 14px; text-align: center; }
-        .stat-card-title { font-size: 13px; font-weight: 700; color: #aaa; text-transform: uppercase; margin-bottom: 6px; }
-        .stat-card-value { font-size: 28px; font-weight: 700; color: #e53935; }
+        .quiz-reset-btn { position: absolute; top: 15px; right: 15px; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; color: #fff; cursor: pointer; text-decoration: none; transition: all 0.2s; }
+        .quiz-reset-btn:hover { background: rgba(0, 229, 255, 0.1); border-color: #00e5ff; color: #00e5ff; }
 
-        .translation-box { background-color: #3d3d3d; padding: 25px; border-radius: 16px; margin-bottom: 30px; }
-        .translation-label { font-size: 16px; color: #aaa; margin-bottom: 8px; text-transform: uppercase; }
-        .translation-value { font-size: 36px; font-weight: 700; color: #ffd700; word-break: break-word; }
+        h1 { color: #fff; margin-top: 0; font-size: 26px; font-weight: 700; margin-bottom: 16px; }
         
-        .input-group { background-color: #3d3d3d; padding: 20px; border-radius: 14px; margin-bottom: 25px; text-align: left; }
-        .input-label { font-size: 15px; color: #aaa; margin-bottom: 10px; text-transform: uppercase; font-weight: 700; }
-        input[type="text"] { width: 100%; padding: 16px 12px; font-family: inherit; font-weight: 700; font-size: 20px; border: 3px solid #555; border-radius: 10px; background-color: #262626; color: white; outline: none; }
-        input[type="text"]:focus { border-color: #4CAF50; }
-        input:disabled { background-color: #262626; color: #aaa; opacity: 1; }
+        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+        .stat-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 12px; padding: 12px; text-align: center; }
+        .stat-card-title { font-size: 11px; font-weight: 700; color: #9aa0a6; text-transform: uppercase; margin-bottom: 4px; letter-spacing: 0.5px; }
+        .stat-card-value { font-size: 20px; font-weight: 700; color: #00e5ff; }
+
+        .translation-box { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); padding: 20px; border-radius: 14px; margin-bottom: 20px; }
+        .translation-label { font-size: 13px; color: #9aa0a6; margin-bottom: 6px; text-transform: uppercase; font-weight: 600; letter-spacing: 0.5px; }
+        .translation-value { font-size: 24px; font-weight: 700; color: #00e5ff; word-break: break-word; }
+        
+        .input-group { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); padding: 16px; border-radius: 12px; margin-bottom: 20px; text-align: left; }
+        .input-label { font-size: 12px; color: #9aa0a6; margin-bottom: 8px; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px; }
+        input[type="text"] { width: 100%; padding: 14px 14px; font-family: inherit; font-weight: 600; font-size: 16px; border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 10px; background: rgba(255, 255, 255, 0.05); color: white; outline: none; transition: border-color 0.2s; }
+        input[type="text"]:focus { border-color: #00e5ff; }
+        input:disabled { background: rgba(255, 255, 255, 0.02); color: #888; opacity: 1; }
         
         .action-buttons-wrapper { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; width: 100%; }
-        .btn-action { background-color: #4CAF50; color: white; border: none; padding: 18px 40px; font-family: inherit; font-weight: 700; font-size: 22px; border-radius: 12px; cursor: pointer; transition: background-color 0.3s; width: 100%; max-width: 320px; }
-        .btn-action:hover { background-color: #45a049; }
-        .btn-next { background-color: #2196F3 !important; }
-        .btn-skip { background-color: #757575 !important; }
-        .btn-end { background-color: #e53935 !important; }
-        .btn-retry-wrong { background-color: #ff9800 !important; }
+        .btn-action { background: rgba(0, 229, 255, 0.12); color: #00e5ff; border: 1px solid rgba(0, 229, 255, 0.4); padding: 14px 24px; font-family: inherit; font-weight: 700; font-size: 16px; border-radius: 12px; cursor: pointer; transition: all 0.3s; width: 100%; max-width: 260px; }
+        .btn-action:hover { background: #00e5ff; color: #0b0d0f; box-shadow: 0 0 20px rgba(0, 229, 255, 0.3); }
+        
+        .btn-next { background: rgba(33, 150, 243, 0.15) !important; color: #2196F3 !important; border-color: rgba(33, 150, 243, 0.4) !important; }
+        .btn-next:hover { background: #2196F3 !important; color: #fff !important; box-shadow: 0 0 20px rgba(33, 150, 243, 0.4) !important; }
+        
+        .btn-skip { background: rgba(255, 255, 255, 0.05) !important; color: #aaa !important; border-color: rgba(255, 255, 255, 0.15) !important; }
+        .btn-skip:hover { background: rgba(255, 255, 255, 0.15) !important; color: #fff !important; box-shadow: 0 0 20px rgba(255, 255, 255, 0.2) !important; }
+        
+        .btn-end { background: rgba(229, 57, 53, 0.15) !important; color: #e53935 !important; border-color: rgba(229, 57, 53, 0.4) !important; }
+        .btn-end:hover { background: #e53935 !important; color: #fff !important; box-shadow: 0 0 20px rgba(229, 57, 53, 0.4) !important; }
+        
+        .btn-retry-wrong { background: rgba(255, 152, 0, 0.15) !important; color: #ff9800 !important; border-color: rgba(255, 152, 0, 0.4) !important; }
+        .btn-retry-wrong:hover { background: #ff9800 !important; color: #fff !important; box-shadow: 0 0 20px rgba(255, 152, 0, 0.4) !important; }
 
-        .feedback { margin-top: 25px; font-size: 22px; font-weight: 700; min-height: 40px; line-height: 1.4; }
+        .feedback { margin-top: 20px; font-size: 18px; font-weight: 600; min-height: 35px; line-height: 1.4; }
         .correct { color: #4CAF50; }
         .partial-correct { color: #ffd700; }
         .incorrect { color: #f44336; }
-        .skipped-text { color: #aaa; }
-        .counter { font-size: 18px; color: #aaa; margin-bottom: 15px; }
+        .skipped-text { color: #9aa0a6; }
+        .counter { font-size: 14px; color: #9aa0a6; margin-bottom: 12px; font-weight: 600; }
 
-        .summary-container { text-align: left; margin-top: 20px; }
-        .summary-title { font-size: 28px; color: #4CAF50; font-weight: 700; text-align: center; margin-bottom: 20px; }
-        .summary-score { font-size: 22px; text-align: center; margin-bottom: 30px; color: #fff; }
-        .summary-list { background-color: #1e1e1e; border-radius: 12px; padding: 15px; border: 2px solid #444; display: flex; flex-direction: column; gap: 12px; }
-        .summary-item { background-color: #2a2a2a; border-radius: 10px; padding: 14px 18px; display: flex; justify-content: space-between; align-items: center; border-left: 6px solid #555; gap: 10px; flex-wrap: wrap; }
+        .summary-container { text-align: left; margin-top: 15px; }
+        .summary-title { font-size: 20px; color: #fff; font-weight: 700; text-align: center; margin-bottom: 15px; }
+        .summary-score { font-size: 18px; text-align: center; margin-bottom: 25px; color: #00e5ff; font-weight: 700; }
+        .summary-list { background: rgba(255, 255, 255, 0.02); border-radius: 12px; padding: 12px; border: 1px solid rgba(255, 255, 255, 0.08); display: flex; flex-direction: column; gap: 10px; max-height: 350px; overflow-y: auto; }
+        .summary-item { background: rgba(255, 255, 255, 0.04); border-radius: 10px; padding: 12px 15px; display: flex; justify-content: space-between; align-items: center; border-left: 5px solid #555; gap: 10px; flex-wrap: wrap; }
         .summary-item.perfect { border-left-color: #4CAF50; }
         .summary-item.partial { border-left-color: #ffd700; }
         .summary-item.failed { border-left-color: #f44336; }
-        .summary-item.skipped { border-left-color: #888; background-color: #222; }
-        .summary-item-content { flex-grow: 1; font-size: 18px; line-height: 1.5; }
-        .summary-num { font-weight: bold; color: #888; margin-right: 8px; }
-        .summary-word { font-weight: bold; font-size: 20px; }
-        .summary-score-badge { font-size: 20px; font-weight: 700; padding: 8px 16px; border-radius: 8px; background-color: #1a1a1a; border: 1px solid #444; }
-        .summary-details { font-size: 15px; margin-top: 6px; color: #ccc; }
+        .summary-item.skipped { border-left-color: #888; background: rgba(255,255,255,0.02); }
+        .summary-item-content { flex-grow: 1; font-size: 15px; line-height: 1.4; }
+        .summary-num { font-weight: bold; color: #888; margin-right: 6px; }
+        .summary-word { font-weight: bold; font-size: 16px; color: #fff; }
+        .summary-score-badge { font-size: 15px; font-weight: 700; padding: 5px 12px; border-radius: 8px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); }
+        .summary-details { font-size: 13px; margin-top: 5px; color: #aaa; }
         .text-correct { color: #4CAF50; font-weight: bold; }
         .text-skipped { color: #888; }
-        .summary-footer-bar { margin-top: 25px; background-color: #2d2d2d; padding: 16px 20px; border-radius: 20px; display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; }
+        .summary-footer-bar { margin-top: 20px; display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
+
+        @media(max-width: 900px) { .nav-links { display: none; } }
     </style>
 </head>
 <body>
 
-    <div class="back-nav">
-        <a href="index.html" class="back-btn">&#8592; Strona główna</a>
-    </div>
+    <div class="glow"></div>
+
+    <header>
+        <nav class="nav-capsule">
+            <a href="index.html" class="brand"><span class="brand-icon"></span>English Vocabulary</a>
+            <ul class="nav-links">
+                <li><a href="index.html">Strona główna</a></li>
+                <li><a href="quiz_wpisywany.html" class="active">Quiz Wpisz</a></li>
+                <li><a href="quiz_abcd.html">Quiz ABCD</a></li>
+            </ul>
+            <a href="tabelka.html" class="nav-btn">Baza Wiedzy</a>
+        </nav>
+    </header>
 
     <div class="tab-content">
         <div class="quiz-container" id="in-quiz-box">
             <a href="#" class="quiz-reset-btn" onclick="restartInputQuiz(); return false;" title="Resetuj quiz">
-                <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
                     <path d="M3 3v5h5"></path>
                 </svg>
             </a>
-            <h1>Quiz: Wpisz po angielsku</h1>
+            <h1>Quiz: Wpisz angielskie słówko</h1>
             
             <div class="stats-grid">
                 <div class="stat-card" id="in-last-card">
@@ -99,16 +142,16 @@
                 </div>
             </div>
 
-            <div class="counter" id="in-progress-text" style="color: #4CAF50; margin-bottom: 20px; font-weight: 700;"></div>
+            <div class="counter" id="in-progress-text"></div>
             
             <div class="translation-box">
-                <div class="translation-label">Słówko:</div>
+                <div class="translation-label">Znaczenie po polsku:</div>
                 <div class="translation-value" id="in-val-translation">-</div>
             </div>
 
             <div class="input-group">
-                <div class="input-label">Wpisz słówko po angielsku...</div>
-                <input type="text" id="input-answer" placeholder="Wpisz..." autocomplete="off">
+                <div class="input-label">Wpisz po angielsku...</div>
+                <input type="text" id="input-answer" placeholder="Wpisz po angielsku..." autocomplete="off">
             </div>
 
             <div class="action-buttons-wrapper">
@@ -124,46 +167,40 @@
 
     <script src="historyData.js"></script>
     <script>
-        function evaluateAnswer(userStr, targetEnglish) {
+        function evaluateAnswer(userStr, targetTitle) {
             const cleanUser = userStr.toLowerCase().trim().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "");
-            const cleanTarget = targetEnglish.toLowerCase().trim().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "");
-
-            if (!cleanUser) {
-                return { percentage: 0, matched: [], missing: [targetEnglish] };
-            }
+            const cleanTarget = targetTitle.toLowerCase().trim().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "");
             
-            // Dokładne dopasowanie angielskiego słówka/frazy
-            if (cleanUser === cleanTarget) {
-                return { percentage: 100, matched: [targetEnglish], missing: [] };
+            if (!cleanUser) return { percentage: 0, matched: [], missing: [targetTitle] };
+            if (cleanUser === cleanTarget) return { percentage: 100, matched: [targetTitle], missing: [] };
+
+            // Dokładne lub bliskie dopasowanie ciągu znaków (dla słówek i krótkich zwrotów)
+            if (cleanTarget.includes(cleanUser) || cleanUser.includes(cleanTarget)) {
+                return { percentage: 100, matched: [targetTitle], missing: [] };
             }
 
-            const userWords = cleanUser.split(/\s+/).filter(w => w.length > 0);
-            const targetWords = cleanTarget.split(/\s+/).filter(w => w.length > 0);
+            const userWords = cleanUser.split(/\s+/).filter(w => w.length > 1);
+            const targetWords = cleanTarget.split(/\s+/).filter(w => w.length > 1);
+            
+            if (targetWords.length === 0) return { percentage: 100, matched: [targetTitle], missing: [] };
 
-            // Dla pojedynczego słowa wymagamy idealnej zgodności
-            if (targetWords.length === 1) {
-                return { percentage: 0, matched: [], missing: [targetEnglish] };
-            }
-
-            // Dla wielowyrazowych fraz sprawdzamy dopasowane słowa
             let matchedCount = 0;
             targetWords.forEach(tw => {
-                if (userWords.includes(tw)) {
+                if (userWords.some(uw => uw.includes(tw) || tw.includes(uw))) {
                     matchedCount++;
                 }
             });
 
             let percentage = Math.round((matchedCount / targetWords.length) * 100);
-
-            if (percentage < 30) {
-                return { percentage: 0, matched: [], missing: [targetEnglish] };
+            if (percentage >= 50 || matchedCount >= 1) {
+                return { percentage: 100, matched: [targetTitle], missing: [] };
             }
 
-            return { percentage, matched: [targetEnglish], missing: [] };
+            return { percentage: 0, matched: [], missing: [targetTitle] };
         }
 
         function getScoreColor(percent) {
-            if (percent < 30) return '#e53935';
+            if (percent < 30) return '#f44336';
             if (percent < 75) return '#ffd700';
             return '#4CAF50';
         }
@@ -173,7 +210,6 @@
             const valueEl = document.getElementById(valueId);
             if (!cardEl || !valueEl) return;
             const color = getScoreColor(scorePercent);
-            cardEl.style.borderColor = color;
             valueEl.style.color = color;
             valueEl.innerText = `${scorePercent}%`;
         }
@@ -203,7 +239,7 @@
             inCurrentWord = inAvailableWords.pop();
 
             const inp = document.getElementById("input-answer");
-            inp.value = ""; inp.disabled = false; inp.style.borderColor = "#555";
+            inp.value = ""; inp.disabled = false; inp.style.borderColor = "rgba(255,255,255,0.15)";
 
             document.getElementById("in-feedback").innerHTML = "";
             document.getElementById("in-check-btn").style.display = "inline-block";
@@ -211,7 +247,7 @@
             document.getElementById("in-skip-btn").style.display = "inline-block";
             document.getElementById("in-end-btn").style.display = "inline-block";
             
-            // Pokazujemy POLSKI opis, oczekujemy ANGIELSKIEGO słowa
+            // Wyświetlamy znaczenie po polsku (`desc`)
             document.getElementById("in-val-translation").innerText = inCurrentWord.desc;
             document.getElementById("in-progress-text").innerText = `Pytanie: ${inQuestionNumber} / ${inTotalPool.length} | Pominięto: ${inSkippedCount}`;
             
@@ -228,6 +264,7 @@
             if (!val) { feedbackEl.innerHTML = "<span class='incorrect'>Wpisz angielskie słówko, aby sprawdzić!</span>"; return; }
 
             inIsAnswerChecked = true;
+            // Sprawdzamy odpowiedź względem angielskiego słówka (`title`)
             const evalRes = evaluateAnswer(val, inCurrentWord.title);
             inScoreTotal += evalRes.percentage;
 
@@ -235,19 +272,16 @@
             let statusText = "";
             if (evalRes.percentage >= 75) {
                 inp.style.borderColor = "#4CAF50";
-                statusText = `<span class='correct'>Świetnie! Dopasowanie: ${evalRes.percentage}% 🎉</span>`;
-            } else if (evalRes.percentage >= 30) {
-                inp.style.borderColor = "#ffd700";
-                statusText = `<span class='partial-correct'>Dobrze, ale brakuje szczegółów! Dopasowanie: ${evalRes.percentage}% ⚠</span>`;
+                statusText = `<span class='correct'>Dobrze! 🎉</span>`;
             } else {
                 inp.style.borderColor = "#f44336";
-                statusText = `<span class='incorrect'>Źle! Dopasowanie: ${evalRes.percentage}% ❌</span>`;
+                statusText = `<span class='incorrect'>Źle! ❌</span>`;
             }
 
             feedbackEl.innerHTML = `
                 ${statusText}<br>
-                <div style="font-size: 18px; margin-top: 10px; color: #ccc;">
-                    <strong>Wzorcowa odpowiedź:</strong> ${inCurrentWord.title}<br>
+                <div style="font-size: 15px; margin-top: 8px; color: #aaa;">
+                    <strong>Prawidłowa odpowiedź:</strong> ${inCurrentWord.title}<br>
                 </div>
             `;
 
@@ -269,8 +303,8 @@
             inp.disabled = true; inp.style.borderColor = "#888";
 
             document.getElementById("in-feedback").innerHTML = `
-                <span class='skipped-text'>Pominięto. Poprawna odpowiedź:</span><br>
-                <div style="font-size: 18px; margin-top: 5px; color: #ffd700;">${inCurrentWord.title}</div>
+                <span class='skipped-text'>Pominięto. Poprawne angielskie słówko:</span><br>
+                <div style="font-size: 15px; margin-top: 5px; color: #00e5ff;">${inCurrentWord.title}</div>
             `;
 
             inHistory.push({ item: inCurrentWord, userAnswer: "(Pominięto)", eval: { percentage: 0, matched: [], missing: [] }, skipped: true });
@@ -293,18 +327,18 @@
                         <div class="summary-item skipped">
                             <div class="summary-item-content">
                                 <div><span class="summary-num">${idx + 1}.</span><span class="summary-word">${h.item.desc}</span></div>
-                                <div class="summary-details"><span class="text-skipped">${h.item.title}</span></div>
+                                <div class="summary-details"><span class="text-skipped">Angielski: ${h.item.title}</span></div>
                             </div>
                             <div class="summary-score-badge">0%</div>
                         </div>
                     `;
                 }
-                const statusClass = h.eval.percentage >= 75 ? 'perfect' : (h.eval.percentage >= 30 ? 'partial' : 'failed');
+                const statusClass = h.eval.percentage >= 75 ? 'perfect' : 'failed';
                 return `
                     <div class="summary-item ${statusClass}">
                         <div class="summary-item-content">
                             <div><span class="summary-num">${idx + 1}.</span><span class="summary-word">${h.item.desc}</span></div>
-                            <div class="summary-details">Twoja odpowiedź: <em>${h.userAnswer}</em><br>Wzorzec: <span class="text-correct">${h.item.title}</span></div>
+                            <div class="summary-details">Twoja odpowiedź: <em>${h.userAnswer}</em><br>Wzorzec (ang.): <span class="text-correct">${h.item.title}</span></div>
                         </div>
                         <div class="summary-score-badge">${h.eval.percentage}%</div>
                     </div>
@@ -320,7 +354,7 @@
 
             box.innerHTML = `
                 <a href="#" class="quiz-reset-btn" onclick="restartInputQuiz(); return false;" title="Resetuj">
-                    <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
                         <path d="M3 3v5h5"></path>
                     </svg>
@@ -340,7 +374,46 @@
 
         function retryInputWrongWords() {
             if (!window.inWrongWordsCache || !window.inWrongWordsCache.length) return;
-            location.reload();
+            const wrongPool = [...window.inWrongWordsCache];
+            
+            const box = document.getElementById("in-quiz-box");
+            box.innerHTML = `
+                <a href="#" class="quiz-reset-btn" onclick="restartInputQuiz(); return false;" title="Resetuj quiz">
+                    <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+                        <path d="M3 3v5h5"></path>
+                    </svg>
+                </a>
+                <h1>Quiz: Wpisz angielskie słówko</h1>
+                <div class="stats-grid">
+                    <div class="stat-card" id="in-last-card">
+                        <div class="stat-card-title">Ostatnie pytanie</div>
+                        <div class="stat-card-value" id="in-last-score-text">0%</div>
+                    </div>
+                    <div class="stat-card" id="in-avg-card">
+                        <div class="stat-card-title">Średnia celność</div>
+                        <div class="stat-card-value" id="in-avg-score-text">0%</div>
+                    </div>
+                </div>
+                <div class="counter" id="in-progress-text"></div>
+                <div class="translation-box">
+                    <div class="translation-label">Znaczenie po polsku:</div>
+                    <div class="translation-value" id="in-val-translation">-</div>
+                </div>
+                <div class="input-group">
+                    <div class="input-label">Wpisz po angielsku...</div>
+                    <input type="text" id="input-answer" placeholder="Wpisz po angielsku..." autocomplete="off">
+                </div>
+                <div class="action-buttons-wrapper">
+                    <button class="btn-action" id="in-check-btn" onclick="handleInputStep()">Sprawdź</button>
+                    <button class="btn-action btn-next" id="in-next-btn" onclick="loadNextInputQuestion()" style="display: none;">Następne pytanie</button>
+                    <button class="btn-action btn-skip" id="in-skip-btn" onclick="skipInputQuestion()">Pomiń pytanie</button>
+                    <button class="btn-action btn-end" id="in-end-btn" onclick="showInputSummary()">Zakończ quiz</button>
+                </div>
+                <div class="feedback" id="in-feedback"></div>
+            `;
+            initInputQueue(wrongPool);
+            loadNextInputQuestion();
         }
 
         function restartInputQuiz() { location.reload(); }
