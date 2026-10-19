@@ -1,310 +1,52 @@
 const historyData = [
-    { 
-        id: "1", 
-        title: "access sth", 
-        titleKeywords: ["access sth"],
-        desc: "mieć dostęp do czegoś", 
-        descKeywords: ["mieć dostęp do czegoś"]
-    },
-    { 
-        id: "2", 
-        title: "at the wave of a hand", 
-        titleKeywords: ["at the wave of a hand"],
-        desc: "na machnięcie / skinienie ręką", 
-        descKeywords: ["na machnięcie / skinienie ręką"]
-    },
-    { 
-        id: "3", 
-        title: "bionic hand", 
-        titleKeywords: ["bionic hand"],
-        desc: "bioniczna proteza ręki", 
-        descKeywords: ["bioniczna proteza ręki"]
-    },
-    { 
-        id: "4", 
-        title: "blueberry", 
-        titleKeywords: ["blueberry"],
-        desc: "borówka", 
-        descKeywords: ["borówka"]
-    },
-    { 
-        id: "5", 
-        title: "broadband", 
-        titleKeywords: ["broadband"],
-        desc: "szerokopasmowy", 
-        descKeywords: ["szerokopasmowy"]
-    },
-    { 
-        id: "6", 
-        title: "cutting-edge", 
-        titleKeywords: ["cutting-edge"],
-        desc: "pionierski, nowatorski", 
-        descKeywords: ["pionierski, nowatorski"]
-    },
-    { 
-        id: "7", 
-        title: "defective", 
-        titleKeywords: ["defective"],
-        desc: "wadliwy", 
-        descKeywords: ["wadliwy"]
-    },
-    { 
-        id: "8", 
-        title: "detect", 
-        titleKeywords: ["detect"],
-        desc: "wykryć", 
-        descKeywords: ["wykryć"]
-    },
-    { 
-        id: "9", 
-        title: "domestic appliance", 
-        titleKeywords: ["domestic appliance"],
-        desc: "urządzenie domowe", 
-        descKeywords: ["urządzenie domowe"]
-    },
-    { 
-        id: "10", 
-        title: "driverless car", 
-        titleKeywords: ["driverless car"],
-        desc: "samochód autonomiczny", 
-        descKeywords: ["samochód autonomiczny"]
-    },
-    { 
-        id: "11", 
-        title: "efficient", 
-        titleKeywords: ["efficient"],
-        desc: "wydajny", 
-        descKeywords: ["wydajny"]
-    },
-    { 
-        id: "12", 
-        title: "electrical tube", 
-        titleKeywords: ["electrical tube"],
-        desc: "rurka osłonowa na przewody elektryczne", 
-        descKeywords: ["rurka osłonowa na przewody elektryczne"]
-    },
-    { 
-        id: "13", 
-        title: "embedded", 
-        titleKeywords: ["embedded"],
-        desc: "wbudowany, osadzony", 
-        descKeywords: ["wbudowany, osadzony"]
-    },
-    { 
-        id: "14", 
-        title: "emotionally interactive", 
-        titleKeywords: ["emotionally interactive"],
-        desc: "interaktywny emocjonalnie", 
-        descKeywords: ["interaktywny emocjonalnie"]
-    },
-    { 
-        id: "15", 
-        title: "faulty", 
-        titleKeywords: ["faulty"],
-        desc: "uszkodzony", 
-        descKeywords: ["uszkodzony"]
-    },
-    { 
-        id: "16", 
-        title: "feasible", 
-        titleKeywords: ["feasible"],
-        desc: "wykonalny, realny", 
-        descKeywords: ["wykonalny, realny"]
-    },
-    { 
-        id: "17", 
-        title: "host", 
-        titleKeywords: ["host"],
-        desc: "zapewniać sprzęt i oprogramowanie pozwalające istnieć stronie internetowej", 
-        descKeywords: ["zapewniać sprzęt i oprogramowanie pozwalające istnieć stronie internetowej"]
-    },
-    { 
-        id: "18", 
-        title: "intriguing", 
-        titleKeywords: ["intriguing"],
-        desc: "intrygujący", 
-        descKeywords: ["intrygujący"]
-    },
-    { 
-        id: "19", 
-        title: "limitation", 
-        titleKeywords: ["limitation"],
-        desc: "ograniczenie", 
-        descKeywords: ["ograniczenie"]
-    },
-    { 
-        id: "20", 
-        title: "microchip implant", 
-        titleKeywords: ["microchip implant"],
-        desc: "biochip", 
-        descKeywords: ["biochip"]
-    },
-    { 
-        id: "21", 
-        title: "mute", 
-        titleKeywords: ["mute"],
-        desc: "wyciszyć", 
-        descKeywords: ["wyciszyć"]
-    },
-    { 
-        id: "22", 
-        title: "operate sth", 
-        titleKeywords: ["operate sth"],
-        desc: "obsługiwać coś", 
-        descKeywords: ["obsługiwać coś"]
-    },
-    { 
-        id: "23", 
-        title: "outdated", 
-        titleKeywords: ["outdated"],
-        desc: "przestarzały", 
-        descKeywords: ["przestarzały"]
-    },
-    { 
-        id: "24", 
-        title: "underprivileged", 
-        titleKeywords: ["underprivileged"],
-        desc: "nieuprzywilejowany, pokrzywdzony (przez los)", 
-        descKeywords: ["nieuprzywilejowany, pokrzywdzony (przez los)"]
-    },
-    { 
-        id: "25", 
-        title: "unfollow", 
-        titleKeywords: ["unfollow"],
-        desc: "przestać obserwować", 
-        descKeywords: ["przestać obserwować"]
-    },
-    { 
-        id: "26", 
-        title: "user-friendly", 
-        titleKeywords: ["user-friendly"],
-        desc: "przyjazny dla użytkownika", 
-        descKeywords: ["przyjazny dla użytkownika"]
-    },
-    { 
-        id: "27", 
-        title: "virtual assistant", 
-        titleKeywords: ["virtual assistant"],
-        desc: "wirtualny asystent", 
-        descKeywords: ["wirtualny asystent"]
-    },
-    { 
-        id: "28", 
-        title: "warring", 
-        titleKeywords: ["warring"],
-        desc: "wojujący", 
-        descKeywords: ["wojujący"]
-    },
-    { 
-        id: "29", 
-        title: "affordable", 
-        titleKeywords: ["affordable"],
-        desc: "przystępny cenowo", 
-        descKeywords: ["przystępny cenowo"]
-    },
-    { 
-        id: "30", 
-        title: "artificial", 
-        titleKeywords: ["artificial"],
-        desc: "sztuczny", 
-        descKeywords: ["sztuczny"]
-    },
-    { 
-        id: "31", 
-        title: "cancer", 
-        titleKeywords: ["cancer"],
-        desc: "rak, nowotwór złośliwy", 
-        descKeywords: ["rak, nowotwór złośliwy"]
-    },
-    { 
-        id: "32", 
-        title: "enhance", 
-        titleKeywords: ["enhance"],
-        desc: "zwiększyć, wzmocnić, poprawić", 
-        descKeywords: ["zwiększyć, wzmocnić, poprawić"]
-    },
-    { 
-        id: "33", 
-        title: "facial muscles", 
-        titleKeywords: ["facial muscles"],
-        desc: "mięśnie twarzy", 
-        descKeywords: ["mięśnie twarzy"]
-    },
-    { 
-        id: "34", 
-        title: "headset", 
-        titleKeywords: ["headset"],
-        desc: "zestaw słuchawkowy", 
-        descKeywords: ["zestaw słuchawkowy"]
-    },
-    { 
-        id: "35", 
-        title: "in (general) use", 
-        titleKeywords: ["in (general) use"],
-        desc: "w (powszechnym) użyciu", 
-        descKeywords: ["w (powszechnym) użyciu"]
-    },
-    { 
-        id: "36", 
-        title: "link up", 
-        titleKeywords: ["link up"],
-        desc: "łączyć, podłączać", 
-        descKeywords: ["łączyć, podłączać"]
-    },
-    { 
-        id: "37", 
-        title: "make strides", 
-        titleKeywords: ["make strides"],
-        desc: "robić postępy", 
-        descKeywords: ["robić postępy"]
-    },
-    { 
-        id: "38", 
-        title: "merge", 
-        titleKeywords: ["merge"],
-        desc: "połączyć", 
-        descKeywords: ["połączyć"]
-    },
-    { 
-        id: "39", 
-        title: "mind reading", 
-        titleKeywords: ["mind reading"],
-        desc: "czytanie w myślach", 
-        descKeywords: ["czytanie w myślach"]
-    },
-    { 
-        id: "40", 
-        title: "mouth", 
-        titleKeywords: ["mouth"],
-        desc: "powiedzieć bezgłośnie", 
-        descKeywords: ["powiedzieć bezgłośnie"]
-    },
-    { 
-        id: "41", 
-        title: "pick up", 
-        titleKeywords: ["pick up"],
-        desc: "odebrać (sygnał)", 
-        descKeywords: ["odebrać (sygnał)"]
-    },
-    { 
-        id: "42", 
-        title: "purchase", 
-        titleKeywords: ["purchase"],
-        desc: "zakup", 
-        descKeywords: ["zakup"]
-    },
-    { 
-        id: "43", 
-        title: "telepathy", 
-        titleKeywords: ["telepathy"],
-        desc: "telepatia", 
-        descKeywords: ["telepatia"]
-    },
-    { 
-        id: "44", 
-        title: "wearable", 
-        titleKeywords: ["wearable"],
-        desc: "nadający się do noszenia", 
-        descKeywords: ["nadający się do noszenia"]
-    }
+    // VOCABULARY 2
+    { id: "1", title: "abdomen", titleKeywords: ["abdomen"], desc: "brzuch", descKeywords: ["brzuch"] },
+    { id: "2", title: "aesthetic medicine", titleKeywords: ["aesthetic medicine"], desc: "medycyna estetyczna", descKeywords: ["medycyna estetyczna"] },
+    { id: "3", title: "birthmark", titleKeywords: ["birthmark"], desc: "znamię", descKeywords: ["znamie"] },
+    { id: "4", title: "bladder", titleKeywords: ["bladder"], desc: "pęcherz", descKeywords: ["pecherz"] },
+    { id: "5", title: "bodily fluid", titleKeywords: ["bodily fluid"], desc: "płyn ustrojowy", descKeywords: ["plyn ustrojowy"] },
+    { id: "6", title: "chest", titleKeywords: ["chest"], desc: "klatka piersiowa", descKeywords: ["klatka piersiowa"] },
+    { id: "7", title: "deadly disease", titleKeywords: ["deadly disease"], desc: "śmiertelna choroba", descKeywords: ["smiertelna choroba"] },
+    { id: "8", title: "diabetes", titleKeywords: ["diabetes"], desc: "cukrzyca", descKeywords: ["cukrzyca"] },
+    { id: "9", title: "digestive organs", titleKeywords: ["digestive organs"], desc: "narządy trawienne", descKeywords: ["narzady trawienne"] },
+    { id: "10", title: "external", titleKeywords: ["external"], desc: "zewnętrzny", descKeywords: ["zewnetrzny"] },
+    { id: "11", title: "inflict pain", titleKeywords: ["inflict pain"], desc: "zadawać ból", descKeywords: ["zadawac bol"] },
+    { id: "12", title: "insulin", titleKeywords: ["insulin"], desc: "insulina", descKeywords: ["insulina"] },
+    { id: "13", title: "intestine", titleKeywords: ["intestine"], desc: "jelito", descKeywords: ["jelito"] },
+    { id: "14", title: "internal", titleKeywords: ["internal"], desc: "wewnętrzny", descKeywords: ["wewnetrzny"] },
+    { id: "15", title: "invasive", titleKeywords: ["invasive"], desc: "inwazyjny", descKeywords: ["inwazyjny"] },
+    { id: "16", title: "joint", titleKeywords: ["joint"], desc: "staw", descKeywords: ["staw"] },
+    { id: "17", title: "kidney", titleKeywords: ["kidney"], desc: "nerka", descKeywords: ["nerka"] },
+    { id: "18", title: "knuckle", titleKeywords: ["knuckle"], desc: "kostka, knykieć", descKeywords: ["kostka", "knykiec"] },
+    { id: "19", title: "lean", titleKeywords: ["lean"], desc: "szczupły", descKeywords: ["szczuply"] },
+    { id: "20", title: "liver", titleKeywords: ["liver"], desc: "wątroba", descKeywords: ["watroba"] },
+    { id: "21", title: "lung", titleKeywords: ["lung"], desc: "płuco", descKeywords: ["pluco"] },
+    { id: "22", title: "mole", titleKeywords: ["mole"], desc: "pieprzyk, znamię", descKeywords: ["pieprzyk", "znamie"] },
+    { id: "23", title: "obese", titleKeywords: ["obese"], desc: "otyły", descKeywords: ["otyly"] },
+    { id: "24", title: "operate on sb", titleKeywords: ["operate on sb", "operate"], desc: "operować kogoś", descKeywords: ["operowac kogos"] },
+    { id: "25", title: "palm", titleKeywords: ["palm"], desc: "dłoń", descKeywords: ["dlon"] },
+    { id: "26", title: "pancreas", titleKeywords: ["pancreas"], desc: "trzustka", descKeywords: ["trzustka"] },
+    { id: "27", title: "rib", titleKeywords: ["rib"], desc: "żebro", descKeywords: ["zebro"] },
+    { id: "28", title: "scar", titleKeywords: ["scar"], desc: "blizna", descKeywords: ["blizna"] },
+    { id: "29", title: "silhouette", titleKeywords: ["silhouette"], desc: "sylwetka", descKeywords: ["sylwetka"] },
+    { id: "30", title: "skin mark", titleKeywords: ["skin mark"], desc: "znamię", descKeywords: ["znamie"] },
+    { id: "31", title: "state-of-the-art", titleKeywords: ["state-of-the-art"], desc: "najnowocześniejszy", descKeywords: ["najnowoczesniejszy"] },
+    { id: "32", title: "transplantology", titleKeywords: ["transplantology"], desc: "transplantologia", descKeywords: ["transplantologia"] },
+    { id: "33", title: "trim", titleKeywords: ["trim"], desc: "szczupły, wysportowany, zwłaszcza o sylwetce", descKeywords: ["szczuply", "wysportowany", "zwlaszcza o sylwetce"] },
+    { id: "34", title: "vaccination", titleKeywords: ["vaccination"], desc: "szczepienie", descKeywords: ["szczepienie"] },
+    { id: "35", title: "vein", titleKeywords: ["vein"], desc: "żyła", descKeywords: ["zyla"] },
+    { id: "36", title: "wrist", titleKeywords: ["wrist"], desc: "nadgarstek", descKeywords: ["nadgarstek"] },
+
+    // LISTENING
+    { id: "37", title: "brainstorm solutions", titleKeywords: ["brainstorm solutions"], desc: "szukać rozwiązania za pomocą burzy mózgów", descKeywords: ["szukac rozwiazania za pomoca burzy mozgow"] },
+    { id: "38", title: "consider alternatives", titleKeywords: ["consider alternatives"], desc: "rozważyć opcje", descKeywords: ["rozwazyc opcje"] },
+    { id: "39", title: "draw conclusions", titleKeywords: ["draw conclusions"], desc: "wyciągać wnioski", descKeywords: ["wyciagac wnioski"] },
+    { id: "40", title: "identify pros and cons", titleKeywords: ["identify pros and cons"], desc: "określić plusy i minusy", descKeywords: ["okreslic plusy i minusy"] },
+    { id: "41", title: "imagine possibilities", titleKeywords: ["imagine possibilities"], desc: "wyobrazić sobie możliwości", descKeywords: ["wyobrazic sobie mozliwosci"] },
+    { id: "42", title: "personality trait", titleKeywords: ["personality trait"], desc: "cecha osobowości", descKeywords: ["cecha osobowosci"] },
+    { id: "43", title: "predict the effects", titleKeywords: ["predict the effects"], desc: "przewidzieć skutki", descKeywords: ["przewidziec skutki"] },
+    { id: "44", title: "suspend judgment", titleKeywords: ["suspend judgment"], desc: "wstrzymać się z wydaniem opinii", descKeywords: ["wstrzymac sie z wydaniem opinii"] },
+    { id: "45", title: "technological advances", titleKeywords: ["technological advances"], desc: "postęp technologiczny", descKeywords: ["postep technologiczny"] },
+    { id: "46", title: "use your intuition", titleKeywords: ["use your intuition"], desc: "użyć intuicji", descKeywords: ["uzyc intuicji"] },
+    { id: "47", title: "willingness", titleKeywords: ["willingness"], desc: "chęć, gotowość", descKeywords: ["chec", "gotowosc"] }
 ];
