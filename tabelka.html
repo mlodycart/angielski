@@ -74,12 +74,6 @@
         tr.highlighted-row td { color: #fff !important; }
         tr.highlighted-row strong { color: #00e5ff !important; }
 
-        .sub-desc {
-            color: #00e5ff !important;
-            font-weight: 500;
-            font-size: 0.95em;
-        }
-
         @media(max-width: 900px) { 
             .nav-links { display: none; } 
             th, td { padding: 8px 8px; font-size: 12px; }
@@ -128,17 +122,9 @@
     <script>
         function buildTable() {
             document.getElementById('table-body').innerHTML = historyData.map((w, idx) => {
-                let mainText = w.title;
-                let bracketText = "";
-                const bracketIdx = w.title.indexOf('(');
-                if (bracketIdx !== -1) {
-                    mainText = w.title.substring(0, bracketIdx).trim();
-                    bracketText = w.title.substring(bracketIdx);
-                }
-
                 return `
                     <tr id="row-word-${idx}">
-                        <td><strong>${mainText}</strong> ${bracketText ? `<span class="sub-desc">${bracketText}</span>` : ''}</td>
+                        <td><strong>${w.title}</strong></td>
                         <td>${w.desc}</td>
                     </tr>
                 `;
